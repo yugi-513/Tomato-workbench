@@ -320,6 +320,45 @@
   .cal-detail-text{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .cal-empty-detail{font-size:12.5px;color:var(--ink-soft);}
 
+  .top-tabs{display:flex;gap:6px;margin-bottom:20px;border-bottom:1px solid var(--line);}
+  .top-tab{
+    padding:10px 4px;margin-right:18px;font-size:14px;color:var(--ink-soft);cursor:pointer;
+    border-bottom:2px solid transparent;margin-bottom:-1px;
+  }
+  .top-tab.active{color:var(--ink);font-weight:600;border-bottom-color:var(--ink);}
+
+  .btn-add.expense{background:var(--accent);}
+
+  .receipt-upload{
+    border:1.5px dashed var(--line);border-radius:10px;background:#FCFBF8;
+    cursor:pointer;overflow:hidden;
+  }
+  .receipt-empty{
+    padding:26px 12px;text-align:center;font-size:13.5px;color:var(--ink-soft);
+  }
+  .receipt-upload:hover .receipt-empty{color:var(--ink);}
+  .receipt-preview-state{padding:12px;}
+  .receipt-preview-img{
+    max-width:100%;max-height:220px;display:block;margin:0 auto 10px;border-radius:8px;
+    border:1px solid var(--line);
+  }
+  .receipt-preview-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+  .receipt-ocr-status{font-size:12.5px;color:var(--ink-soft);}
+
+  .card.expense{border-left-color:var(--accent);}
+  .receipt-thumb{
+    width:44px;height:44px;border-radius:7px;object-fit:cover;flex-shrink:0;
+    border:1px solid var(--line);cursor:pointer;margin-top:2px;
+  }
+  .tag.expense{background:var(--accent-soft);color:var(--accent);}
+  .tag.noreceipt{background:var(--overdue-soft);color:var(--overdue);}
+
+  .receipt-lightbox{
+    position:fixed;inset:0;background:rgba(20,18,14,0.82);z-index:1200;
+    display:flex;align-items:center;justify-content:center;padding:24px;cursor:zoom-out;
+  }
+  .receipt-lightbox img{max-width:100%;max-height:100%;border-radius:8px;}
+
   @media (max-width:520px){
     .stats{grid-template-columns:repeat(2,1fr);}
     .form-grid{grid-template-columns:1fr;}
@@ -357,6 +396,13 @@
 </div>
 
 <div class="wrap" id="appWrap" style="display:none;">
+
+  <div class="top-tabs" id="topTabs">
+    <div class="top-tab active" data-tab="orders" id="tabOrdersBtn">🍅 订单 / 采购</div>
+    <div class="top-tab" data-tab="expenses" id="tabExpensesBtn">🧾 支出记录</div>
+  </div>
+
+  <div id="viewOrders">
 
   <div class="topbar">
     <div>
@@ -488,11 +534,118 @@
 
   <div class="list" id="list"></div>
 
+  </div>
+
+  <div id="viewExpenses" style="display:none;">
+
+    <div class="topbar">
+      <div>
+        <p class="title">支出记录</p>
+        <p class="subtitle" id="expSubtitle">记录公司买货等支出，方便月底报税</p>
+      </div>
+      <div class="add-group">
+        <button class="btn-add expense" id="addExpenseBtn">+ 记一笔支出</button>
+      </div>
+    </div>
+
+    <div class="stats" id="expStats">
+      <div class="stat"><div class="num" id="expStatMonthTotal">RM0</div><div class="lbl">本月支出</div></div>
+      <div class="stat"><div class="num" id="expStatMonthCount">0</div><div class="lbl">本月笔数</div></div>
+      <div class="stat warn"><div class="num" id="expStatNoReceipt">0</div><div class="lbl">本月无收据</div></div>
+    </div>
+
+    <div class="panel" id="expPanel">
+      <p class="panel-title" id="expPanelTitle">新增支出</p>
+
+      <div class="field full" style="margin-bottom:14px;">
+        <label>拍照 / 上传收据（选填，可自动尝试识别金额）</label>
+        <div class="receipt-upload" id="receiptUploadBox">
+          <input type="file" id="receiptFile" accept="image/*" capture="environment" style="display:none;">
+          <div id="receiptEmptyState" class="receipt-empty">
+            <span>📷 点击拍照或选择收据图片</span>
+          </div>
+          <div id="receiptPreviewState" class="receipt-preview-state" style="display:none;">
+            <img id="receiptPreviewImg" class="receipt-preview-img" alt="收据预览">
+            <div class="receipt-preview-actions">
+              <span id="receiptOcrStatus" class="receipt-ocr-status"></span>
+              <button type="button" class="btn-secondary" id="removeReceiptBtn">移除图片</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>日期</label>
+          <input type="date" id="e_date">
+        </div>
+        <div class="field">
+          <label>金额（RM）</label>
+          <input type="text" id="e_amount" placeholder="例如：128.50">
+        </div>
+        <div class="field">
+          <label>类别</label>
+          <select id="e_category">
+            <option value="材料/食材">材料 / 食材</option>
+            <option value="咖啡豆">咖啡豆</option>
+            <option value="包装">包装</option>
+            <option value="运费/交通">运费 / 交通</option>
+            <option value="房租">房租</option>
+            <option value="水电">水电</option>
+            <option value="设备/工具">设备 / 工具</option>
+            <option value="其他">其他</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>用途 / 供应商说明</label>
+          <input type="text" id="e_desc" placeholder="例如：XX五金店 买包装盒">
+        </div>
+        <div class="field full">
+          <label>备注（选填）</label>
+          <textarea id="e_note" placeholder="没有收据的原因、付款方式等…"></textarea>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn-secondary" id="cancelExpense">取消</button>
+        <button class="btn-primary" id="saveExpense">保存</button>
+      </div>
+    </div>
+
+    <div class="panel" id="exportPanel">
+      <p class="panel-title" style="margin:0 0 14px;">导出月度报表</p>
+      <div class="field" style="max-width:220px;margin-bottom:14px;">
+        <label>选择月份</label>
+        <input type="month" id="exportMonth">
+      </div>
+      <p class="summary-range" id="exportPreviewLabel"></p>
+      <div class="form-actions" style="justify-content:space-between;">
+        <button class="btn-secondary" id="closeExport">关闭</button>
+        <button class="btn-primary" id="downloadExcelBtn">下载 Excel 表格</button>
+      </div>
+    </div>
+
+    <div class="search-row">
+      <input type="text" id="expSearchInput" placeholder="🔍 搜索用途、类别、备注…">
+      <button class="btn-summary" id="exportBtn">📥 导出报表</button>
+    </div>
+
+    <div class="filters">
+      <div class="chip active" data-ef="month">本月</div>
+      <div class="chip" data-ef="all">全部</div>
+      <div class="chip" data-ef="noreceipt">无收据</div>
+    </div>
+
+    <div class="list" id="expList"></div>
+
+  </div>
+
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" crossorigin="anonymous"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js" crossorigin="anonymous"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.0/dist/tesseract.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script>
 window.addEventListener('error', function(e){
   const isGenericNoise = (e.message === 'Script error.' || !e.message) && !e.filename;
@@ -598,6 +751,7 @@ function initAuthFlow(){
   if(!auth){
     showApp();
     loadRecordsLocal();
+    loadExpensesLocal();
     return;
   }
   auth.onAuthStateChanged((user) => {
@@ -606,8 +760,12 @@ function initAuthFlow(){
       if(!firestoreReady){
         migrateOldDataIfNeeded().then(() => initFirestoreSync());
       }
+      if(!expensesFirestoreReady){
+        initExpensesFirestoreSync();
+      }
     }else{
       firestoreReady = false;
+      expensesFirestoreReady = false;
       showLogin();
     }
   });
@@ -719,6 +877,451 @@ async function persistUpsert(record){
     console.error('保存失败', e);
   }
 }
+
+/* ================= 支出记录 (Expenses) ================= */
+
+let expenses = [];
+let expenseEditingId = null;
+let expenseFilter = 'month';
+let expenseSearchQuery = '';
+let currentReceiptDataUrl = null;
+let expensesFirestoreReady = false;
+
+function euid(){ return 'e_' + Date.now() + '_' + Math.random().toString(36).slice(2,7); }
+function todayYMD(){ return fmtYMD(new Date()); }
+
+function initExpensesFirestoreSync(){
+  db.collection('company_expenses').onSnapshot(
+    (snap) => {
+      try{
+        expenses = snap.docs.map(d => d.data());
+        expensesFirestoreReady = true;
+        const ve = document.getElementById('viewExpenses');
+        if(ve && ve.style.display !== 'none') renderExpenses();
+      }catch(e){
+        console.error('渲染支出数据时出错', e);
+      }
+    },
+    (err) => {
+      console.error('支出同步失败（可能是云端权限未开放给 company_expenses 集合）', err);
+      loadExpensesLocal();
+    }
+  );
+}
+
+async function loadExpensesLocal(){
+  try{
+    if(HAS_CLAUDE_STORAGE){
+      const res = await window.storage.get('expenses', false);
+      expenses = res ? JSON.parse(res.value) : [];
+    }else if(HAS_LOCAL_STORAGE){
+      const raw = localStorage.getItem('tomato_expenses');
+      expenses = raw ? JSON.parse(raw) : [];
+    }else{
+      expenses = [];
+    }
+  }catch(e){
+    expenses = [];
+  }
+  renderExpenses();
+}
+
+async function persistUpsertExpense(record){
+  if(useFirestore){
+    try{
+      await db.collection('company_expenses').doc(record.id).set(record);
+    }catch(e){
+      console.error('保存支出到云端失败', e);
+      alert('保存到云端失败，请检查网络后重试');
+    }
+    return;
+  }
+  try{
+    if(HAS_CLAUDE_STORAGE){
+      await window.storage.set('expenses', JSON.stringify(expenses), false);
+    }else if(HAS_LOCAL_STORAGE){
+      localStorage.setItem('tomato_expenses', JSON.stringify(expenses));
+    }
+  }catch(e){
+    console.error('保存支出失败', e);
+  }
+}
+
+async function persistDeleteExpense(id){
+  if(useFirestore){
+    try{
+      await db.collection('company_expenses').doc(id).delete();
+    }catch(e){
+      console.error('删除支出失败', e);
+    }
+    return;
+  }
+  try{
+    if(HAS_CLAUDE_STORAGE){
+      await window.storage.set('expenses', JSON.stringify(expenses), false);
+    }else if(HAS_LOCAL_STORAGE){
+      localStorage.setItem('tomato_expenses', JSON.stringify(expenses));
+    }
+  }catch(e){
+    console.error('删除支出失败', e);
+  }
+}
+
+/* 图片压缩，避免收据照片太大存不进云端文档（Firestore单份文档上限约1MB） */
+function compressImageFile(file, maxDim, quality){
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const reader = new FileReader();
+    reader.onload = (e) => { img.src = e.target.result; };
+    reader.onerror = reject;
+    img.onload = () => {
+      let { width, height } = img;
+      if(width > height && width > maxDim){
+        height = Math.round(height * maxDim / width); width = maxDim;
+      }else if(height > maxDim){
+        width = Math.round(width * maxDim / height); height = maxDim;
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = width; canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+      resolve(canvas.toDataURL('image/jpeg', quality));
+    };
+    img.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+/* 收据文字识别：尽量猜出总金额和日期，仅供参考，用户保存前都能核对/修改 */
+function parseReceiptText(text){
+  const result = { amount: null, date: null };
+  const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+  const numRe = /(\d{1,3}(?:[,\.]\d{3})*(?:\.\d{1,2})|\d+\.\d{2})/;
+  const totalKeywords = ['grand total','total due','amount due','net total','total','jumlah'];
+  let bestAmount = null;
+  for(const kw of totalKeywords){
+    for(const line of lines){
+      if(line.toLowerCase().includes(kw)){
+        const m = line.match(numRe);
+        if(m){
+          const val = parseFloat(m[1].replace(/,/g,''));
+          if(!isNaN(val)) bestAmount = val;
+        }
+      }
+    }
+    if(bestAmount !== null) break;
+  }
+  if(bestAmount === null){
+    let max = null;
+    const allMatches = text.match(/\d+\.\d{2}/g) || [];
+    allMatches.forEach(s => {
+      const v = parseFloat(s);
+      if(!isNaN(v) && (max === null || v > max)) max = v;
+    });
+    bestAmount = max;
+  }
+  result.amount = bestAmount;
+
+  const dm = text.match(/(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})/);
+  if(dm){
+    let [_, a, b, y] = dm;
+    if(y.length === 2) y = '20' + y;
+    let day = parseInt(a,10), month = parseInt(b,10);
+    if(month > 12 && day <= 12){ const t = day; day = month; month = t; }
+    if(month >= 1 && month <= 12 && day >= 1 && day <= 31){
+      result.date = y + '-' + String(month).padStart(2,'0') + '-' + String(day).padStart(2,'0');
+    }
+  }
+  return result;
+}
+
+async function runReceiptOcr(dataUrl){
+  const statusEl = document.getElementById('receiptOcrStatus');
+  if(statusEl) statusEl.textContent = '正在尝试识别金额…';
+  try{
+    const { data } = await Tesseract.recognize(dataUrl, 'eng');
+    const parsed = parseReceiptText(data.text || '');
+    if(parsed.amount !== null){
+      const amtInput = document.getElementById('e_amount');
+      if(amtInput && !amtInput.value) amtInput.value = parsed.amount.toFixed(2);
+      if(statusEl) statusEl.textContent = '✓ 识别到金额 RM' + parsed.amount.toFixed(2) + '，请核对是否正确';
+    }else{
+      if(statusEl) statusEl.textContent = '没能自动识别出金额，请手动填写';
+    }
+    if(parsed.date){
+      const dateInput = document.getElementById('e_date');
+      if(dateInput) dateInput.value = parsed.date;
+    }
+  }catch(e){
+    console.error('OCR 识别失败', e);
+    if(statusEl) statusEl.textContent = '识别失败，请手动填写金额';
+  }
+}
+
+function resetExpenseForm(){
+  expenseEditingId = null;
+  currentReceiptDataUrl = null;
+  document.getElementById('expPanelTitle').textContent = '新增支出';
+  document.getElementById('e_date').value = todayYMD();
+  document.getElementById('e_amount').value = '';
+  document.getElementById('e_category').value = '材料/食材';
+  document.getElementById('e_desc').value = '';
+  document.getElementById('e_note').value = '';
+  document.getElementById('receiptFile').value = '';
+  document.getElementById('receiptEmptyState').style.display = '';
+  document.getElementById('receiptPreviewState').style.display = 'none';
+  document.getElementById('receiptOcrStatus').textContent = '';
+}
+
+on('receiptUploadBox', 'click', (e) => {
+  if(e.target.id === 'removeReceiptBtn') return;
+  document.getElementById('receiptFile').click();
+});
+on('removeReceiptBtn', 'click', (e) => {
+  e.stopPropagation();
+  currentReceiptDataUrl = null;
+  document.getElementById('receiptFile').value = '';
+  document.getElementById('receiptEmptyState').style.display = '';
+  document.getElementById('receiptPreviewState').style.display = 'none';
+});
+on('receiptFile', 'change', async (e) => {
+  const file = e.target.files[0];
+  if(!file) return;
+  try{
+    const dataUrl = await compressImageFile(file, 1000, 0.6);
+    currentReceiptDataUrl = dataUrl;
+    document.getElementById('receiptEmptyState').style.display = 'none';
+    document.getElementById('receiptPreviewState').style.display = '';
+    document.getElementById('receiptPreviewImg').src = dataUrl;
+    document.getElementById('receiptOcrStatus').textContent = '';
+    runReceiptOcr(dataUrl);
+  }catch(err){
+    console.error('图片处理失败', err);
+    alert('图片处理失败，请换一张试试');
+  }
+});
+
+on('addExpenseBtn', 'click', () => {
+  resetExpenseForm();
+  document.getElementById('exportPanel').classList.remove('open');
+  document.getElementById('expPanel').classList.add('open');
+});
+on('cancelExpense', 'click', () => {
+  document.getElementById('expPanel').classList.remove('open');
+});
+
+on('saveExpense', 'click', async () => {
+  const amountStr = document.getElementById('e_amount').value.trim();
+  const desc = document.getElementById('e_desc').value.trim();
+  if(!amountStr && !desc){
+    document.getElementById('e_desc').focus();
+    return;
+  }
+  const record = {
+    id: expenseEditingId || euid(),
+    date: document.getElementById('e_date').value || todayYMD(),
+    amount: amountStr,
+    category: document.getElementById('e_category').value,
+    desc: desc,
+    note: document.getElementById('e_note').value.trim(),
+    receipt: currentReceiptDataUrl || null
+  };
+  if(expenseEditingId){
+    const idx = expenses.findIndex(x => x.id === expenseEditingId);
+    if(idx > -1){
+      if(!record.receipt && expenses[idx].receipt) record.receipt = expenses[idx].receipt;
+      expenses[idx] = record;
+    }
+  }else{
+    expenses.push(record);
+  }
+  await persistUpsertExpense(record);
+  document.getElementById('expPanel').classList.remove('open');
+  renderExpenses();
+});
+
+function editExpense(id){
+  const r = expenses.find(x => x.id === id);
+  if(!r) return;
+  expenseEditingId = id;
+  currentReceiptDataUrl = r.receipt || null;
+  document.getElementById('expPanelTitle').textContent = '编辑支出';
+  document.getElementById('e_date').value = r.date || todayYMD();
+  document.getElementById('e_amount').value = r.amount || '';
+  document.getElementById('e_category').value = r.category || '其他';
+  document.getElementById('e_desc').value = r.desc || '';
+  document.getElementById('e_note').value = r.note || '';
+  if(r.receipt){
+    document.getElementById('receiptEmptyState').style.display = 'none';
+    document.getElementById('receiptPreviewState').style.display = '';
+    document.getElementById('receiptPreviewImg').src = r.receipt;
+    document.getElementById('receiptOcrStatus').textContent = '';
+  }else{
+    document.getElementById('receiptEmptyState').style.display = '';
+    document.getElementById('receiptPreviewState').style.display = 'none';
+  }
+  document.getElementById('exportPanel').classList.remove('open');
+  document.getElementById('expPanel').classList.add('open');
+}
+
+async function deleteExpense(id){
+  if(!confirm('确定要删除这笔支出记录吗？')) return;
+  expenses = expenses.filter(x => x.id !== id);
+  await persistDeleteExpense(id);
+  renderExpenses();
+}
+
+function showReceiptLightbox(src){
+  const box = document.createElement('div');
+  box.className = 'receipt-lightbox';
+  const img = document.createElement('img');
+  img.src = src;
+  box.appendChild(img);
+  box.addEventListener('click', () => box.remove());
+  document.body.appendChild(box);
+}
+
+function monthKeyOf(dateStr){ return (dateStr || '').slice(0,7); }
+
+function renderExpenses(){
+  const curMonthKey = fmtYMD(new Date()).slice(0,7);
+
+  let filtered = expenses.slice();
+  if(expenseFilter === 'month') filtered = filtered.filter(r => monthKeyOf(r.date) === curMonthKey);
+  if(expenseFilter === 'noreceipt') filtered = filtered.filter(r => !r.receipt);
+  if(expenseSearchQuery){
+    const q = expenseSearchQuery.toLowerCase();
+    filtered = filtered.filter(r =>
+      (r.desc||'').toLowerCase().includes(q) ||
+      (r.category||'').toLowerCase().includes(q) ||
+      (r.note||'').toLowerCase().includes(q)
+    );
+  }
+  filtered.sort((a,b) => (b.date||'').localeCompare(a.date||''));
+
+  const monthRecords = expenses.filter(r => monthKeyOf(r.date) === curMonthKey);
+  const monthTotal = monthRecords.reduce((s,r) => s + (parseFloat(r.amount) || 0), 0);
+  const noReceiptCount = monthRecords.filter(r => !r.receipt).length;
+  const elTotal = document.getElementById('expStatMonthTotal');
+  const elCount = document.getElementById('expStatMonthCount');
+  const elNoReceipt = document.getElementById('expStatNoReceipt');
+  if(elTotal) elTotal.textContent = 'RM' + monthTotal.toFixed(2);
+  if(elCount) elCount.textContent = monthRecords.length;
+  if(elNoReceipt) elNoReceipt.textContent = noReceiptCount;
+
+  const list = document.getElementById('expList');
+  if(!list) return;
+  if(filtered.length === 0){
+    list.innerHTML = `<div class="empty"><p class="big">还没有支出记录</p><p style="color:var(--ink-soft);font-size:13px;">点击上面「+ 记一笔支出」开始记录</p></div>`;
+    return;
+  }
+  list.innerHTML = filtered.map(r => {
+    const amt = parseFloat(r.amount);
+    const amtText = !isNaN(amt) ? 'RM' + amt.toFixed(2) : '（未填金额）';
+    return `
+      <div class="card expense" data-id="${r.id}">
+        ${r.receipt ? `<img class="receipt-thumb" src="${r.receipt}" data-receipt="${r.id}">` : ''}
+        <div class="card-main">
+          <div class="card-tagrow">
+            <span class="tag expense">${escapeHtml(r.category || '其他')}</span>
+            ${!r.receipt ? `<span class="tag noreceipt">无收据</span>` : ''}
+          </div>
+          <div class="card-top"><span class="card-name">${escapeHtml(r.desc || '（未填用途）')}</span></div>
+          <div class="card-meta"><span>${escapeHtml(r.date || '')}</span><span>${escapeHtml(amtText)}</span></div>
+          ${r.note ? `<div class="card-note">${escapeHtml(r.note)}</div>` : ''}
+        </div>
+        <button type="button" class="card-edit" data-editexp="${r.id}" title="编辑">✎</button>
+        <button type="button" class="card-del" data-delexp="${r.id}" title="删除">✕</button>
+      </div>
+    `;
+  }).join('');
+}
+
+const expListEl = document.getElementById('expList');
+if(expListEl){
+  expListEl.addEventListener('click', (e) => {
+    const editBtn = e.target.closest('[data-editexp]');
+    const delBtn = e.target.closest('[data-delexp]');
+    const receiptImg = e.target.closest('[data-receipt]');
+    if(editBtn) editExpense(editBtn.dataset.editexp);
+    else if(delBtn) deleteExpense(delBtn.dataset.delexp);
+    else if(receiptImg) showReceiptLightbox(receiptImg.src);
+  });
+}
+
+document.querySelectorAll('.chip[data-ef]').forEach(chip => {
+  chip.addEventListener('click', () => {
+    expenseFilter = chip.dataset.ef;
+    document.querySelectorAll('.chip[data-ef]').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    renderExpenses();
+  });
+});
+on('expSearchInput', 'input', (e) => {
+  expenseSearchQuery = e.target.value.trim();
+  renderExpenses();
+});
+
+on('exportBtn', 'click', () => {
+  document.getElementById('expPanel').classList.remove('open');
+  const monthInput = document.getElementById('exportMonth');
+  if(!monthInput.value) monthInput.value = fmtYMD(new Date()).slice(0,7);
+  updateExportPreview();
+  document.getElementById('exportPanel').classList.add('open');
+});
+on('closeExport', 'click', () => {
+  document.getElementById('exportPanel').classList.remove('open');
+});
+on('exportMonth', 'change', updateExportPreview);
+
+function expensesForMonth(monthKey){
+  return expenses.filter(r => monthKeyOf(r.date) === monthKey)
+    .sort((a,b) => (a.date||'').localeCompare(b.date||''));
+}
+
+function updateExportPreview(){
+  const monthKey = document.getElementById('exportMonth').value;
+  const list = expensesForMonth(monthKey);
+  const total = list.reduce((s,r) => s + (parseFloat(r.amount)||0), 0);
+  document.getElementById('exportPreviewLabel').textContent =
+    `${monthKey || ''}：共 ${list.length} 笔，合计 RM${total.toFixed(2)}`;
+}
+
+on('downloadExcelBtn', 'click', () => {
+  const monthKey = document.getElementById('exportMonth').value;
+  if(!monthKey){ alert('请先选择月份'); return; }
+  const list = expensesForMonth(monthKey);
+  if(list.length === 0){ alert('这个月还没有支出记录'); return; }
+
+  const rows = list.map(r => ({
+    '日期': r.date || '',
+    '类别': r.category || '',
+    '用途/供应商说明': r.desc || '',
+    '金额(RM)': parseFloat(r.amount) || 0,
+    '有收据': r.receipt ? '是' : '否',
+    '备注': r.note || ''
+  }));
+  const total = list.reduce((s,r) => s + (parseFloat(r.amount)||0), 0);
+  rows.push({ '日期':'', '类别':'', '用途/供应商说明':'合计', '金额(RM)': Number(total.toFixed(2)), '有收据':'', '备注':'' });
+
+  const ws = XLSX.utils.json_to_sheet(rows);
+  ws['!cols'] = [{wch:12},{wch:14},{wch:28},{wch:12},{wch:8},{wch:28}];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, monthKey);
+  XLSX.writeFile(wb, `支出记录_${monthKey}.xlsx`);
+});
+
+on('tabOrdersBtn', 'click', () => switchTopTab('orders'));
+on('tabExpensesBtn', 'click', () => switchTopTab('expenses'));
+function switchTopTab(tab){
+  document.getElementById('viewOrders').style.display = (tab === 'orders') ? '' : 'none';
+  document.getElementById('viewExpenses').style.display = (tab === 'expenses') ? '' : 'none';
+  document.getElementById('tabOrdersBtn').classList.toggle('active', tab === 'orders');
+  document.getElementById('tabExpensesBtn').classList.toggle('active', tab === 'expenses');
+  if(tab === 'expenses') renderExpenses();
+}
+
+/* ================= /支出记录 ================= */
 
 async function persistDelete(id){
   if(useFirestore){
