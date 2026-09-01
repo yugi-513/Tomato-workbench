@@ -550,8 +550,8 @@
 
     <div class="stats" id="expStats">
       <div class="stat"><div class="num" id="expStatMonthTotal">RM0</div><div class="lbl">本月支出(全部)</div></div>
-      <div class="stat"><div class="num" id="expStatMineTotal">RM0</div><div class="lbl">本月我的</div></div>
-      <div class="stat"><div class="num" id="expStatPartnerTotal">RM0</div><div class="lbl">本月拍档的</div></div>
+      <div class="stat"><div class="num" id="expStatMineTotal">RM0</div><div class="lbl">本月 UG expenses</div></div>
+      <div class="stat"><div class="num" id="expStatPartnerTotal">RM0</div><div class="lbl">本月 B2 expenses</div></div>
       <div class="stat warn"><div class="num" id="expStatNoReceipt">0</div><div class="lbl">本月无收据</div></div>
     </div>
 
@@ -622,8 +622,8 @@
         <label>导出范围</label>
         <select id="exportScope">
           <option value="all">全部（我 + 拍档）</option>
-          <option value="mine">只有我的</option>
-          <option value="partner">只有拍档的</option>
+          <option value="mine">UG expenses</option>
+          <option value="partner">B2 expenses</option>
         </select>
       </div>
       <p class="summary-range" id="exportPreviewLabel"></p>
@@ -641,8 +641,8 @@
     <div class="filters">
       <div class="chip active" data-ef="month">本月</div>
       <div class="chip" data-ef="all">全部</div>
-      <div class="chip" data-ef="mine">我的支出</div>
-      <div class="chip" data-ef="partner">拍档支出</div>
+      <div class="chip" data-ef="mine">UG expenses</div>
+      <div class="chip" data-ef="partner">B2 expenses</div>
       <div class="chip" data-ef="noreceipt">无收据</div>
     </div>
 
@@ -759,6 +759,13 @@ function showLogin(){
 }
 
 let currentUserEmail = null;
+const UG_EMAIL = 'gardener@tomato.com';
+const B2_EMAIL = 'farmer@tomato.com';
+function personLabel(email){
+  if(email === UG_EMAIL) return 'UG';
+  if(email === B2_EMAIL) return 'B2';
+  return email ? email.split('@')[0] : '未知';
+}
 
 function initAuthFlow(){
   if(!auth){
@@ -1206,8 +1213,8 @@ function renderExpenses(){
   let filtered = expenses.slice();
   if(expenseFilter === 'month') filtered = filtered.filter(r => monthKeyOf(r.date) === curMonthKey);
   if(expenseFilter === 'noreceipt') filtered = filtered.filter(r => !r.receipt);
-  if(expenseFilter === 'mine') filtered = filtered.filter(r => r.enteredBy && r.enteredBy === currentUserEmail);
-  if(expenseFilter === 'partner') filtered = filtered.filter(r => r.enteredBy && r.enteredBy !== currentUserEmail);
+  if(expenseFilter === 'mine') filtered = filtered.filter(r => r.enteredBy === UG_EMAIL);
+  if(expenseFilter === 'partner') filtered = filtered.filter(r => r.enteredBy === B2_EMAIL);
   if(expenseSearchQuery){
     const q = expenseSearchQuery.toLowerCase();
     filtered = filtered.filter(r =>
@@ -1220,9 +1227,9 @@ function renderExpenses(){
 
   const monthRecords = expenses.filter(r => monthKeyOf(r.date) === curMonthKey);
   const monthTotal = monthRecords.reduce((s,r) => s + (parseFloat(r.amount) || 0), 0);
-  const mineTotal = monthRecords.filter(r => r.enteredBy && r.enteredBy === currentUserEmail)
+  const mineTotal = monthRecords.filter(r => r.enteredBy === UG_EMAIL)
     .reduce((s,r) => s + (parseFloat(r.amount) || 0), 0);
-  const partnerTotal = monthRecords.filter(r => r.enteredBy && r.enteredBy !== currentUserEmail)
+  const partnerTotal = monthRecords.filter(r => r.enteredBy === B2_EMAIL)
     .reduce((s,r) => s + (parseFloat(r.amount) || 0), 0);
   const noReceiptCount = monthRecords.filter(r => !r.receipt).length;
   const elTotal = document.getElementById('expStatMonthTotal');
@@ -1249,7 +1256,7 @@ function renderExpenses(){
         <div class="card-main">
           <div class="card-tagrow">
             <span class="tag expense">${escapeHtml(r.category || '其他')}</span>
-            ${r.enteredBy ? `<span class="card-party">👤 ${escapeHtml(r.enteredBy.split('@')[0])}</span>` : ''}
+            ${r.enteredBy ? `<span class="card-party">👤 ${escapeHtml(personLabel(r.enteredBy))}</span>` : ''}
             ${!r.receipt ? `<span class="tag noreceipt">无收据</span>` : ''}
           </div>
           <div class="card-top"><span class="card-name">${escapeHtml(r.desc || '（未填用途）')}</span></div>
@@ -1308,8 +1315,8 @@ function expensesForMonth(monthKey){
 
 function scopedList(monthKey, scope){
   let list = expensesForMonth(monthKey);
-  if(scope === 'mine') list = list.filter(r => r.enteredBy && r.enteredBy === currentUserEmail);
-  if(scope === 'partner') list = list.filter(r => r.enteredBy && r.enteredBy !== currentUserEmail);
+  if(scope === 'mine') list = list.filter(r => r.enteredBy === UG_EMAIL);
+  if(scope === 'partner') list = list.filter(r => r.enteredBy === B2_EMAIL);
   return list;
 }
 
@@ -1334,7 +1341,7 @@ on('downloadExcelBtn', 'click', () => {
     '类别': r.category || '',
     '用途/供应商说明': r.desc || '',
     '金额(RM)': parseFloat(r.amount) || 0,
-    '记录人': r.enteredBy || '',
+    '记录人': r.enteredBy ? personLabel(r.enteredBy) : '',
     '有收据': r.receipt ? '是' : '否',
     '备注': r.note || ''
   }));
@@ -1345,7 +1352,7 @@ on('downloadExcelBtn', 'click', () => {
   ws['!cols'] = [{wch:12},{wch:14},{wch:28},{wch:12},{wch:22},{wch:8},{wch:28}];
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, monthKey);
-  const scopeLabel = scope === 'mine' ? '我的' : (scope === 'partner' ? '拍档' : '全部');
+  const scopeLabel = scope === 'mine' ? 'UG' : (scope === 'partner' ? 'B2' : '全部');
   XLSX.writeFile(wb, `支出记录_${monthKey}_${scopeLabel}.xlsx`);
 });
 
