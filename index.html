@@ -94,6 +94,21 @@
     font-size:11px;padding:2px 8px;border-radius:5px;background:var(--accent-soft);color:var(--accent);
     white-space:nowrap;
   }
+  .platform-toggle{display:flex;gap:6px;height:100%;}
+  .platform-btn{
+    flex:1;border:1.5px solid var(--line);background:#FCFBF8;border-radius:7px;
+    padding:9px 6px;text-align:center;font-size:13px;cursor:pointer;color:var(--ink-soft);
+  }
+  .platform-btn.active{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);}
+  .checkbox-label{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--ink);cursor:pointer;}
+  .checkbox-label input{width:16px;height:16px;cursor:pointer;}
+  .fulfillment-badge{
+    font-size:11px;padding:2px 8px;border-radius:5px;background:#EFE7D8;color:var(--ink-soft);
+    white-space:nowrap;
+  }
+  .export-online-block{
+    border-top:1px solid var(--line);margin-top:16px;padding-top:16px;
+  }
   .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
   .field{display:flex;flex-direction:column;gap:5px;}
   .field.full{grid-column:1/-1;}
@@ -473,6 +488,30 @@
           <div class="channel-btn online" data-channel="online" data-i18n="channel_online">🌐 网上订单</div>
         </div>
       </div>
+      <div class="field" id="platformField" style="display:none;">
+        <label data-i18n="lbl_platform">来源平台</label>
+        <div class="platform-toggle" id="platformToggle">
+          <div class="platform-btn active" data-platform="whatsapp" data-i18n="platform_whatsapp">WhatsApp</div>
+          <div class="platform-btn" data-platform="instagram" data-i18n="platform_instagram">Instagram</div>
+          <div class="platform-btn" data-platform="other" data-i18n="platform_other">其他</div>
+        </div>
+      </div>
+      <div class="field" id="fulfillmentField" style="display:none;">
+        <label data-i18n="lbl_fulfillment">取货方式</label>
+        <select id="f_fulfillment">
+          <option value="mail" data-i18n="fulfillment_mail">邮寄</option>
+          <option value="local_truck" data-i18n="fulfillment_local_truck">寄本地货车</option>
+          <option value="delivery" data-i18n="fulfillment_delivery">配送</option>
+          <option value="drop_off" data-i18n="fulfillment_drop_off">寄放</option>
+          <option value="ride" data-i18n="fulfillment_ride">搭顺风车</option>
+          <option value="pickup" data-i18n="fulfillment_pickup">自取</option>
+          <option value="other" data-i18n="fulfillment_other">其他</option>
+        </select>
+      </div>
+      <div class="field" id="postageField" style="display:none;">
+        <label class="checkbox-label"><input type="checkbox" id="f_has_postage"><span data-i18n="lbl_has_postage">有邮费</span></label>
+        <input type="text" id="f_postage" placeholder="例如：8.00" data-i18n-ph="ph_postage" style="display:none;margin-top:8px;">
+      </div>
       <div class="field">
         <label id="lbl_date1">下单日期</label>
         <input type="date" id="f_date1">
@@ -510,6 +549,17 @@
     </div>
     <p class="summary-range" id="summaryRangeLabel"></p>
     <div id="summaryContent"></div>
+
+    <div class="export-online-block" id="exportOnlineBlock">
+      <p class="panel-title" style="margin:0 0 10px;font-size:14px;" data-i18n="export_online_title">导出网上订单（对账/报税用）</p>
+      <div class="field" style="max-width:220px;margin-bottom:10px;">
+        <label data-i18n="lbl_export_month">选择月份（按取货/交货日期）</label>
+        <input type="month" id="onlineExportMonth">
+      </div>
+      <p class="summary-range" id="onlineExportPreview"></p>
+      <button class="btn-summary" id="downloadOnlineExcelBtn" data-i18n="btn_download_online_excel">📥 下载网上订单 Excel</button>
+    </div>
+
     <div class="form-actions">
       <button class="btn-secondary" id="closeSummary" data-i18n="btn_close">关闭</button>
     </div>
@@ -702,6 +752,38 @@ const I18N = {
   lbl_channel:           { zh:'下单渠道', en:'Order Channel', mix:'下单渠道 Channel' },
   channel_instore:       { zh:'🏪 到店消费', en:'🏪 In-Store', mix:'🏪 到店消费 In-Store' },
   channel_online:        { zh:'🌐 网上订单', en:'🌐 Online', mix:'🌐 网上订单 Online' },
+
+  lbl_platform:           { zh:'来源平台', en:'Platform', mix:'来源平台 Platform' },
+  platform_whatsapp:      { zh:'WhatsApp', en:'WhatsApp', mix:'WhatsApp' },
+  platform_instagram:     { zh:'Instagram', en:'Instagram', mix:'Instagram' },
+  platform_other:         { zh:'其他', en:'Other', mix:'其他 Other' },
+  lbl_fulfillment:        { zh:'取货方式', en:'Fulfillment', mix:'取货方式 Fulfillment' },
+  fulfillment_mail:       { zh:'邮寄', en:'Mail', mix:'邮寄 Mail' },
+  fulfillment_local_truck:{ zh:'寄本地货车', en:'Local Truck', mix:'寄本地货车 Local Truck' },
+  fulfillment_delivery:   { zh:'配送', en:'Delivery', mix:'配送 Delivery' },
+  fulfillment_drop_off:   { zh:'寄放', en:'Drop-off', mix:'寄放 Drop-off' },
+  fulfillment_ride:       { zh:'搭顺风车', en:'Ride-along', mix:'搭顺风车 Ride-along' },
+  fulfillment_pickup:     { zh:'自取', en:'Pickup', mix:'自取 Pickup' },
+  fulfillment_other:      { zh:'其他', en:'Other', mix:'其他 Other' },
+  lbl_has_postage:        { zh:'有邮费', en:'Has postage', mix:'有邮费 Has postage' },
+  ph_postage:             { zh:'例如：8.00', en:'e.g. 8.00', mix:'例如：8.00' },
+  fulfillment_badge_prefix:{ zh:'📦 ', en:'📦 ', mix:'📦 ' },
+
+  export_online_title:    { zh:'导出网上订单（对账/报税用）', en:'Export Online Orders (for accounting/tax)', mix:'导出网上订单 Export Online Orders' },
+  lbl_export_month:       { zh:'选择月份（按取货/交货日期）', en:'Select month (by delivery/pickup date)', mix:'选择月份 Select month（按取货日期）' },
+  btn_download_online_excel:{ zh:'📥 下载网上订单 Excel', en:'📥 Download Online Orders Excel', mix:'📥 下载网上订单 Excel' },
+  online_export_preview:  { zh:'{m}：共 {n} 单，合计 RM{t}（含 {u} 单未付款）', en:'{m}: {n} orders, total RM{t} ({u} unpaid)', mix:'{m}：共{n}单 RM{t}（{u}单未付款 unpaid）' },
+  online_export_no_month: { zh:'请先选择月份', en:'Please select a month first', mix:'请先选择月份 Select a month' },
+  online_export_empty:    { zh:'这个月还没有网上订单', en:'No online orders this month', mix:'这个月还没有网上订单 No online orders' },
+  online_export_col_date:      { zh:'取货/交货日期', en:'Delivery/Pickup Date', mix:'取货/交货日期 Date' },
+  online_export_col_platform:  { zh:'来源平台', en:'Platform', mix:'来源平台 Platform' },
+  online_export_col_fulfillment:{ zh:'取货方式', en:'Fulfillment', mix:'取货方式 Fulfillment' },
+  online_export_col_note:      { zh:'订单明细', en:'Order Details', mix:'订单明细 Order Details' },
+  online_export_col_amount:    { zh:'商品金额(RM)', en:'Item Amount (RM)', mix:'商品金额 Item Amount (RM)' },
+  online_export_col_postage:   { zh:'邮费(RM)', en:'Postage (RM)', mix:'邮费 Postage (RM)' },
+  online_export_col_total:     { zh:'订单总额(RM)', en:'Order Total (RM)', mix:'订单总额 Order Total (RM)' },
+  online_export_col_paystatus: { zh:'付款状态', en:'Payment Status', mix:'付款状态 Payment Status' },
+  online_export_col_party:     { zh:'客户名称', en:'Customer', mix:'客户名称 Customer' },
   lbl_note:              { zh:'备注（选填）', en:'Note (optional)', mix:'备注 Note' },
   ph_note_order:         { zh:'联系方式、配送地址、特殊要求…', en:'Contact info, delivery address, special requests…', mix:'联系方式、配送地址… notes' },
   btn_cancel:            { zh:'取消', en:'Cancel', mix:'取消 Cancel' },
@@ -1807,6 +1889,7 @@ function renderInner(){
         <div class="card-tagrow">
           <span class="tag ${r.kind}">${kt.label}</span>
           ${r.kind === 'order' && r.channel ? `<span class="channel-badge">${r.channel === 'online' ? t('channel_badge_online') : t('channel_badge_instore')}</span>` : ''}
+          ${r.kind === 'order' && r.channel === 'online' && r.fulfillment ? `<span class="fulfillment-badge">${t('fulfillment_badge_prefix')}${t('fulfillment_' + r.fulfillment)}</span>` : ''}
           ${r.party ? `<span class="card-party">${escapeHtml(r.party)}</span>` : ''}
           <span class="pay-badge ${r.paid ? 'paid' : 'unpaid'}" data-id="${r.id}">${r.paid ? t('pay_paid_check') : t('pay_unpaid')}</span>
         </div>
@@ -1945,6 +2028,7 @@ function setKind(kind){
 
 let currentPaid = false;
 let currentChannel = 'instore';
+let currentPlatform = 'whatsapp';
 
 function setPaidToggle(paid){
   currentPaid = paid;
@@ -1955,13 +2039,30 @@ function setPaidToggle(paid){
   });
 }
 
+function setPlatformToggle(platform){
+  currentPlatform = platform;
+  const box = document.getElementById('platformToggle');
+  if(!box) return;
+  box.querySelectorAll('.platform-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.platform === platform);
+  });
+}
+
 function setChannelToggle(channel){
   currentChannel = channel;
   const box = document.getElementById('channelToggle');
-  if(!box) return;
-  box.querySelectorAll('.channel-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.channel === channel);
-  });
+  if(box){
+    box.querySelectorAll('.channel-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.channel === channel);
+    });
+  }
+  const isOnline = (channel === 'online');
+  const platformField = document.getElementById('platformField');
+  const fulfillmentField = document.getElementById('fulfillmentField');
+  const postageField = document.getElementById('postageField');
+  if(platformField) platformField.style.display = isOnline ? '' : 'none';
+  if(fulfillmentField) fulfillmentField.style.display = isOnline ? '' : 'none';
+  if(postageField) postageField.style.display = isOnline ? '' : 'none';
 }
 
 function openPanel(kind){
@@ -1970,6 +2071,12 @@ function openPanel(kind){
   resetItemRows(null);
   setPaidToggle(false);
   setChannelToggle('instore');
+  setPlatformToggle('whatsapp');
+  document.getElementById('f_fulfillment').value = 'mail';
+  const hasPostageBox = document.getElementById('f_has_postage');
+  const postageInput = document.getElementById('f_postage');
+  if(hasPostageBox) hasPostageBox.checked = false;
+  if(postageInput){ postageInput.style.display = 'none'; postageInput.value = ''; }
   const firstInput = document.querySelector('#itemRows .item-name');
   if(firstInput) firstInput.focus();
 }
@@ -1980,11 +2087,17 @@ function closePanel(){
   resetItemRows(null);
   setPaidToggle(false);
   setChannelToggle('instore');
+  setPlatformToggle('whatsapp');
   document.getElementById('f_party').value = '';
   document.getElementById('f_amount').value = '';
   document.getElementById('f_date1').value = '';
   document.getElementById('f_date2').value = '';
   document.getElementById('f_note').value = '';
+  document.getElementById('f_fulfillment').value = 'mail';
+  const hasPostageBox2 = document.getElementById('f_has_postage');
+  const postageInput2 = document.getElementById('f_postage');
+  if(hasPostageBox2) hasPostageBox2.checked = false;
+  if(postageInput2){ postageInput2.style.display = 'none'; postageInput2.value = ''; }
 }
 
 function editRecord(id){
@@ -1997,11 +2110,20 @@ function editRecord(id){
   resetItemRows(items);
   setPaidToggle(!!r.paid);
   setChannelToggle(r.channel || 'instore');
+  setPlatformToggle(r.platform || 'whatsapp');
   document.getElementById('f_party').value = r.party || '';
   document.getElementById('f_amount').value = r.amount || '';
   document.getElementById('f_date1').value = r.date1 || '';
   document.getElementById('f_date2').value = r.date2 || '';
   document.getElementById('f_note').value = r.note || '';
+  document.getElementById('f_fulfillment').value = r.fulfillment || 'mail';
+  const hasPostageBox = document.getElementById('f_has_postage');
+  const postageInput = document.getElementById('f_postage');
+  if(hasPostageBox) hasPostageBox.checked = !!r.hasPostage;
+  if(postageInput){
+    postageInput.style.display = r.hasPostage ? '' : 'none';
+    postageInput.value = r.postage || '';
+  }
 }
 
 document.querySelectorAll('.pay-btn').forEach(btn => {
@@ -2009,6 +2131,14 @@ document.querySelectorAll('.pay-btn').forEach(btn => {
 });
 document.querySelectorAll('.channel-btn').forEach(btn => {
   btn.addEventListener('click', () => setChannelToggle(btn.dataset.channel));
+});
+document.querySelectorAll('.platform-btn').forEach(btn => {
+  btn.addEventListener('click', () => setPlatformToggle(btn.dataset.platform));
+});
+on('f_has_postage', 'change', (e) => {
+  const postageInput = document.getElementById('f_postage');
+  if(postageInput) postageInput.style.display = e.target.checked ? '' : 'none';
+  if(!e.target.checked && postageInput) postageInput.value = '';
 });
 
 function on(id, evt, fn){
@@ -2272,8 +2402,70 @@ on('summaryBtn', 'click', () => {
   closeCalendarPanel();
   document.getElementById('summaryPanel').classList.add('open');
   renderSummary(currentSummaryPeriod);
+  const monthInput = document.getElementById('onlineExportMonth');
+  if(monthInput && !monthInput.value) monthInput.value = fmtYMD(new Date()).slice(0,7);
+  updateOnlineExportPreview();
 });
 on('closeSummary', 'click', closeSummaryPanel);
+
+function onlineOrdersForMonth(monthKey){
+  return records.filter(r => r.kind === 'order' && r.channel === 'online' && monthKeyOf(r.date2) === monthKey)
+    .sort((a,b) => (a.date2||'').localeCompare(b.date2||''));
+}
+
+function updateOnlineExportPreview(){
+  const monthKey = document.getElementById('onlineExportMonth').value;
+  const previewEl = document.getElementById('onlineExportPreview');
+  if(!previewEl) return;
+  if(!monthKey){ previewEl.textContent = ''; return; }
+  const list = onlineOrdersForMonth(monthKey);
+  const total = list.reduce((s,r) => s + (parseFloat(r.amount)||0) + (r.hasPostage ? (parseFloat(r.postage)||0) : 0), 0);
+  const unpaidCount = list.filter(r => !r.paid).length;
+  previewEl.textContent = tf('online_export_preview', { m: monthKey, n: list.length, t: total.toFixed(2), u: unpaidCount });
+}
+
+on('onlineExportMonth', 'change', updateOnlineExportPreview);
+
+on('downloadOnlineExcelBtn', 'click', () => {
+  const monthKey = document.getElementById('onlineExportMonth').value;
+  if(!monthKey){ alert(t('online_export_no_month')); return; }
+  const list = onlineOrdersForMonth(monthKey);
+  if(list.length === 0){ alert(t('online_export_empty')); return; }
+
+  const rows = list.map(r => {
+    const itemAmt = parseFloat(r.amount) || 0;
+    const postageAmt = r.hasPostage ? (parseFloat(r.postage) || 0) : 0;
+    return {
+      [t('online_export_col_date')]: r.date2 || '',
+      [t('online_export_col_platform')]: r.platform ? t('platform_' + r.platform) : '',
+      [t('online_export_col_fulfillment')]: r.fulfillment ? t('fulfillment_' + r.fulfillment) : '',
+      [t('online_export_col_party')]: r.party || '',
+      [t('online_export_col_note')]: r.name || '',
+      [t('online_export_col_amount')]: itemAmt,
+      [t('online_export_col_postage')]: postageAmt,
+      [t('online_export_col_total')]: Number((itemAmt + postageAmt).toFixed(2)),
+      [t('online_export_col_paystatus')]: r.paid ? t('pay_paid') : t('pay_unpaid')
+    };
+  });
+  const grandTotal = list.reduce((s,r) => s + (parseFloat(r.amount)||0) + (r.hasPostage ? (parseFloat(r.postage)||0) : 0), 0);
+  rows.push({
+    [t('online_export_col_date')]: '',
+    [t('online_export_col_platform')]: '',
+    [t('online_export_col_fulfillment')]: '',
+    [t('online_export_col_party')]: '',
+    [t('online_export_col_note')]: t('online_export_col_total'),
+    [t('online_export_col_amount')]: '',
+    [t('online_export_col_postage')]: '',
+    [t('online_export_col_total')]: Number(grandTotal.toFixed(2)),
+    [t('online_export_col_paystatus')]: ''
+  });
+
+  const ws = XLSX.utils.json_to_sheet(rows);
+  ws['!cols'] = [{wch:14},{wch:12},{wch:14},{wch:16},{wch:26},{wch:13},{wch:10},{wch:13},{wch:12}];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, monthKey);
+  XLSX.writeFile(wb, `网上订单_${monthKey}.xlsx`);
+});
 document.querySelectorAll('.period-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
@@ -2341,6 +2533,9 @@ on('saveAdd', 'click', async () => {
     return;
   }
   const name = itemsToText(items);
+  const isOnlineOrder = (currentKind === 'order' && currentChannel === 'online');
+  const hasPostageBox = document.getElementById('f_has_postage');
+  const hasPostage = isOnlineOrder && hasPostageBox ? hasPostageBox.checked : false;
   const record = {
     id: editingId || uid(),
     kind: currentKind,
@@ -2350,6 +2545,10 @@ on('saveAdd', 'click', async () => {
     amount: document.getElementById('f_amount').value.trim(),
     paid: currentPaid,
     channel: currentKind === 'order' ? currentChannel : null,
+    platform: isOnlineOrder ? currentPlatform : null,
+    fulfillment: isOnlineOrder ? document.getElementById('f_fulfillment').value : null,
+    hasPostage: hasPostage,
+    postage: hasPostage ? document.getElementById('f_postage').value.trim() : '',
     date1: document.getElementById('f_date1').value,
     date2: document.getElementById('f_date2').value,
     note: document.getElementById('f_note').value.trim(),
