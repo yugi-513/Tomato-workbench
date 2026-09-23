@@ -1406,14 +1406,24 @@ function parseReceiptText(text){
   result.amount = bestAmount;
   result.isCNY = /[¥￥]/.test(text) || /人民币|CNY|RMB/i.test(text);
 
-  const dm = text.match(/(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})/);
-  if(dm){
-    let [_, a, b, y] = dm;
-    if(y.length === 2) y = '20' + y;
-    let day = parseInt(a,10), month = parseInt(b,10);
-    if(month > 12 && day <= 12){ const t = day; day = month; month = t; }
+  const isoMatch = text.match(/(\d{4})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})(?!\d)/);
+  if(isoMatch){
+    const [, y, m, d] = isoMatch;
+    const month = parseInt(m,10), day = parseInt(d,10);
     if(month >= 1 && month <= 12 && day >= 1 && day <= 31){
       result.date = y + '-' + String(month).padStart(2,'0') + '-' + String(day).padStart(2,'0');
+    }
+  }
+  if(!result.date){
+    const dm = text.match(/(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})/);
+    if(dm){
+      let [_, a, b, y] = dm;
+      if(y.length === 2) y = '20' + y;
+      let day = parseInt(a,10), month = parseInt(b,10);
+      if(month > 12 && day <= 12){ const t = day; day = month; month = t; }
+      if(month >= 1 && month <= 12 && day >= 1 && day <= 31){
+        result.date = y + '-' + String(month).padStart(2,'0') + '-' + String(day).padStart(2,'0');
+      }
     }
   }
   return result;
