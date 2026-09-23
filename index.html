@@ -375,6 +375,12 @@
   .tag.expense{background:var(--accent-soft);color:var(--accent);}
   .tag.noreceipt{background:var(--overdue-soft);color:var(--overdue);}
 
+  .cny-convert-row{display:flex;align-items:center;gap:8px;}
+  .cny-convert-row input{flex:1;min-width:0;}
+  .cny-x{color:var(--ink-soft);font-size:13px;flex-shrink:0;}
+  .cny-result{font-size:13px;color:var(--ink-soft);margin:6px 0 0;}
+  .cny-result.ok{color:var(--accent);}
+
   .receipt-lightbox{
     position:fixed;inset:0;background:rgba(20,18,14,0.82);z-index:1200;
     display:flex;align-items:center;justify-content:center;padding:24px;cursor:zoom-out;
@@ -653,6 +659,23 @@
           <input type="text" id="e_amount" placeholder="例如：128.50" data-i18n-ph="ph_amount_expense">
         </div>
         <div class="field">
+          <label data-i18n="lbl_currency">币值</label>
+          <select id="e_currency">
+            <option value="MYR">RM</option>
+            <option value="CNY">CNY 人民币</option>
+          </select>
+        </div>
+        <div class="field full" id="cnyConvertBox" style="display:none;">
+          <label data-i18n="lbl_cny_convert">人民币换算</label>
+          <div class="cny-convert-row">
+            <input type="text" id="e_cny_amount" placeholder="人民币金额" data-i18n-ph="ph_cny_amount">
+            <span class="cny-x">×</span>
+            <input type="text" id="e_cny_rate" placeholder="汇率" data-i18n-ph="ph_cny_rate">
+            <button type="button" class="btn-secondary" id="cnyRefreshRateBtn" data-i18n="btn_refresh_rate">🔄 汇率</button>
+          </div>
+          <p class="cny-result" id="cnyResultText"></p>
+        </div>
+        <div class="field">
           <label data-i18n="lbl_category">类别</label>
           <select id="e_category">
             <option value="Cost of Goods">Cost of Goods</option>
@@ -929,6 +952,16 @@ const I18N = {
   summary_purchase_count: { zh:'{n} 单 · RM{t}', en:'{n} purchases · RM{t}', mix:'{n}单 · RM{t}' },
   summary_uncollected:    { zh:'未收款 RM{t}', en:'Uncollected RM{t}', mix:'未收款 Uncollected RM{t}' },
   summary_unpaid_amt:     { zh:'未付款 RM{t}', en:'Unpaid RM{t}', mix:'未付款 Unpaid RM{t}' },
+
+  lbl_currency:           { zh:'币值', en:'Currency', mix:'币值 Currency' },
+  lbl_cny_convert:        { zh:'人民币换算', en:'CNY Conversion', mix:'人民币换算 CNY Conversion' },
+  ph_cny_amount:          { zh:'人民币金额', en:'Amount in CNY', mix:'人民币金额 CNY amount' },
+  ph_cny_rate:            { zh:'汇率', en:'Rate', mix:'汇率 Rate' },
+  btn_refresh_rate:       { zh:'🔄 汇率', en:'🔄 Rate', mix:'🔄 汇率 Rate' },
+  cny_rate_fetching:      { zh:'正在获取今日汇率…', en:'Fetching today\'s rate…', mix:'正在获取今日汇率 Fetching rate…' },
+  cny_rate_fetch_fail:    { zh:'没能自动获取汇率，请手动输入', en:'Could not fetch rate automatically, please enter manually', mix:'没能自动获取汇率 Fetch failed，请手动输入' },
+  cny_result_text:        { zh:'¥{cny} × {rate} ≈ RM{myr}', en:'¥{cny} × {rate} ≈ RM{myr}', mix:'¥{cny} × {rate} ≈ RM{myr}' },
+  cny_result_incomplete:  { zh:'请填写人民币金额和汇率', en:'Enter both the CNY amount and rate', mix:'请填写人民币金额和汇率 Enter amount & rate' },
 };
 
 function t(key){
@@ -1414,12 +1447,105 @@ function resetExpenseForm(){
   document.getElementById('e_category').value = 'Cost of Goods';
   document.getElementById('e_desc').value = '';
   document.getElementById('e_note').value = '';
+  document.getElementById('e_currency').value = 'MYR';
+  document.getElementById('e_cny_amount').value = '';
+  document.getElementById('e_cny_rate').value = '';
+  document.getElementById('cnyResultText').textContent = '';
+  document.getElementById('cnyResultText').className = 'cny-result';
+  document.getElementById('cnyConvertBox').style.display = 'none';
+  document.getElementById('e_amount').removeAttribute('readonly');
   document.getElementById('receiptFileCamera').value = '';
   document.getElementById('receiptFileGallery').value = '';
   document.getElementById('receiptEmptyState').style.display = '';
   document.getElementById('receiptPreviewState').style.display = 'none';
   document.getElementById('receiptOcrStatus').textContent = '';
 }
+
+let cnyRateCache = null;
+
+async function fetchCnyToMyrRate(){
+  try{
+    const res = await fetch('https://api.frankfurter.app/latest?from=CNY&to=MYR');
+    const data = await res.json();
+    if(data && data.rates && data.rates.MYR){
+      cnyRateCache = data.rates.MYR;
+      return cnyRateCache;
+    }
+  }catch(e){
+    console.error('汇率获取失败（Frankfurter）', e);
+  }
+  try{
+    const res2 = await fetch('https://open.er-api.com/v6/latest/CNY');
+    const data2 = await res2.json();
+    if(data2 && data2.result === 'success' && data2.rates && data2.rates.MYR){
+      cnyRateCache = data2.rates.MYR;
+      return cnyRateCache;
+    }
+  }catch(e){
+    console.error('汇率获取失败（备用源）', e);
+  }
+  return null;
+}
+
+function updateCnyConversion(){
+  const cnyAmt = parseFloat(document.getElementById('e_cny_amount').value);
+  const rate = parseFloat(document.getElementById('e_cny_rate').value);
+  const resultEl = document.getElementById('cnyResultText');
+  if(isNaN(cnyAmt) || isNaN(rate)){
+    resultEl.textContent = t('cny_result_incomplete');
+    resultEl.className = 'cny-result';
+    return;
+  }
+  const myr = cnyAmt * rate;
+  document.getElementById('e_amount').value = myr.toFixed(2);
+  resultEl.textContent = tf('cny_result_text', { cny: cnyAmt.toFixed(2), rate: rate.toFixed(4), myr: myr.toFixed(2) });
+  resultEl.className = 'cny-result ok';
+}
+
+async function applyCurrencyMode(currency, opts){
+  opts = opts || {};
+  const box = document.getElementById('cnyConvertBox');
+  const amtInput = document.getElementById('e_amount');
+  if(currency === 'CNY'){
+    box.style.display = '';
+    amtInput.setAttribute('readonly', 'readonly');
+    if(!opts.skipFetch && !document.getElementById('e_cny_rate').value){
+      const resultEl = document.getElementById('cnyResultText');
+      resultEl.textContent = t('cny_rate_fetching');
+      resultEl.className = 'cny-result';
+      const rate = await fetchCnyToMyrRate();
+      if(rate){
+        document.getElementById('e_cny_rate').value = rate.toFixed(4);
+        updateCnyConversion();
+      }else{
+        resultEl.textContent = t('cny_rate_fetch_fail');
+        resultEl.className = 'cny-result';
+      }
+    }else{
+      updateCnyConversion();
+    }
+  }else{
+    box.style.display = 'none';
+    amtInput.removeAttribute('readonly');
+  }
+}
+
+on('e_currency', 'change', (e) => applyCurrencyMode(e.target.value));
+on('e_cny_amount', 'input', updateCnyConversion);
+on('e_cny_rate', 'input', updateCnyConversion);
+on('cnyRefreshRateBtn', 'click', async () => {
+  const resultEl = document.getElementById('cnyResultText');
+  resultEl.textContent = t('cny_rate_fetching');
+  resultEl.className = 'cny-result';
+  const rate = await fetchCnyToMyrRate();
+  if(rate){
+    document.getElementById('e_cny_rate').value = rate.toFixed(4);
+    updateCnyConversion();
+  }else{
+    resultEl.textContent = t('cny_rate_fetch_fail');
+    resultEl.className = 'cny-result';
+  }
+});
 
 on('receiptCameraBtn', 'click', (e) => {
   e.stopPropagation();
@@ -1473,6 +1599,7 @@ on('saveExpense', 'click', async () => {
     document.getElementById('e_desc').focus();
     return;
   }
+  const currency = document.getElementById('e_currency').value;
   const record = {
     id: expenseEditingId || euid(),
     date: document.getElementById('e_date').value || todayYMD(),
@@ -1481,7 +1608,10 @@ on('saveExpense', 'click', async () => {
     desc: desc,
     note: document.getElementById('e_note').value.trim(),
     receipt: currentReceiptDataUrl || null,
-    enteredBy: currentUserEmail || ''
+    enteredBy: currentUserEmail || '',
+    currency: currency,
+    cnyAmount: currency === 'CNY' ? document.getElementById('e_cny_amount').value.trim() : '',
+    cnyRate: currency === 'CNY' ? document.getElementById('e_cny_rate').value.trim() : ''
   };
   if(expenseEditingId){
     const idx = expenses.findIndex(x => x.id === expenseEditingId);
@@ -1509,6 +1639,15 @@ function editExpense(id){
   document.getElementById('e_category').value = r.category || 'Miscellaneous';
   document.getElementById('e_desc').value = r.desc || '';
   document.getElementById('e_note').value = r.note || '';
+  document.getElementById('e_currency').value = r.currency || 'MYR';
+  document.getElementById('e_cny_amount').value = r.cnyAmount || '';
+  document.getElementById('e_cny_rate').value = r.cnyRate || '';
+  if(r.currency === 'CNY'){
+    applyCurrencyMode('CNY', { skipFetch: true });
+    updateCnyConversion();
+  }else{
+    applyCurrencyMode('MYR');
+  }
   if(r.receipt){
     document.getElementById('receiptEmptyState').style.display = 'none';
     document.getElementById('receiptPreviewState').style.display = '';
@@ -1595,6 +1734,7 @@ function renderExpenses(){
           </div>
           <div class="card-top"><span class="card-name">${escapeHtml(r.desc || t('exp_desc_unfilled'))}</span></div>
           <div class="card-meta"><span>${escapeHtml(r.date || '')}</span><span>${escapeHtml(amtText)}</span></div>
+          ${r.currency === 'CNY' && r.cnyAmount ? `<div class="card-note">¥${escapeHtml(r.cnyAmount)} × ${escapeHtml(r.cnyRate || '')}</div>` : ''}
           ${r.note ? `<div class="card-note">${escapeHtml(r.note)}</div>` : ''}
         </div>
         <button type="button" class="card-edit" data-editexp="${r.id}" title="${t('title_edit')}">✎</button>
@@ -1670,15 +1810,18 @@ on('downloadExcelBtn', 'click', () => {
   const list = scopedList(monthKey, scope);
   if(list.length === 0){ alert(t('err_no_expenses_range')); return; }
 
-  const rows = list.map(r => ({
-    '日期': r.date || '',
-    '类别': r.category || '',
-    '用途/供应商说明': r.desc || '',
-    '金额(RM)': parseFloat(r.amount) || 0,
-    '记录人': r.enteredBy ? personLabel(r.enteredBy) : '',
-    '有收据': r.receipt ? '是' : '否',
-    '备注': r.note || ''
-  }));
+  const rows = list.map(r => {
+    const cnyNote = (r.currency === 'CNY' && r.cnyAmount) ? `¥${r.cnyAmount} × ${r.cnyRate || ''} ` : '';
+    return {
+      '日期': r.date || '',
+      '类别': r.category || '',
+      '用途/供应商说明': r.desc || '',
+      '金额(RM)': parseFloat(r.amount) || 0,
+      '记录人': r.enteredBy ? personLabel(r.enteredBy) : '',
+      '有收据': r.receipt ? '是' : '否',
+      '备注': (cnyNote + (r.note || '')).trim()
+    };
+  });
   const total = list.reduce((s,r) => s + (parseFloat(r.amount)||0), 0);
   rows.push({ '日期':'', '类别':'', '用途/供应商说明':'合计', '金额(RM)': Number(total.toFixed(2)), '记录人':'', '有收据':'', '备注':'' });
 
