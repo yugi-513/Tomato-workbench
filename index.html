@@ -342,13 +342,11 @@
   }
   .lang-btn.active{background:var(--ink);color:#FBF9F4;border-color:var(--ink);}
 
-  .top-tabs{display:flex;gap:6px;margin-bottom:20px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none;}
-  .top-tabs::-webkit-scrollbar{display:none;}
+  .top-tabs{display:flex;gap:6px;margin-bottom:20px;border-bottom:1px solid var(--line);}
   .top-tab{
     padding:10px 4px;margin-right:18px;font-size:14px;color:var(--ink-soft);cursor:pointer;
-    border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;flex:0 0 auto;
+    border-bottom:2px solid transparent;margin-bottom:-1px;
   }
-  @media (max-width:600px){ .top-tab{margin-right:12px;font-size:13px;} }
   .top-tab.active{color:var(--ink);font-weight:600;border-bottom-color:var(--ink);}
 
   .btn-add.expense{background:var(--accent);}
@@ -404,66 +402,7 @@
     .custom-range{flex-wrap:wrap;}
     .custom-range input{min-width:120px;}
   }
-
-  /* ===== 成本利润 ===== */
-  .btn-add.cost{background:var(--purchase);}
-  .btn-add.cost2{background:var(--accent);}
-  .cp-chip{
-    border:1px solid var(--line);background:var(--surface);border-radius:20px;
-    padding:6px 14px;font-size:13px;color:var(--ink-soft);cursor:pointer;
-  }
-  .cp-chip.active{background:var(--ink);color:#FBF9F4;border-color:var(--ink);}
-  .cp-hero{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;}
-  .cp-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;min-width:0;}
-  .cp-card .k{font-size:12px;color:var(--ink-soft);}
-  .cp-card .v{font-size:17px;font-weight:600;margin:5px 0 3px;word-break:break-word;}
-  .cp-card .s{font-size:12px;color:var(--ink-soft);line-height:1.5;}
-  .cp-card.king{border-color:#B9CBA8;background:var(--purchase-soft);}
-  .cp-card.champ{border-color:#C9D5E4;background:var(--accent-soft);}
-  .cp-card.star{border-color:#E2CE8A;background:#FFFBEE;}
-  .cp-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:6px;}
-  .cp-stats .stat{padding:10px 12px;}
-  .cp-stats .num{font-size:17px;}
-  .cp-sec{font-size:13px;font-weight:600;color:var(--ink-soft);margin:22px 0 10px;}
-  .cp-row{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:8px;}
-  .cp-r1{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;}
-  .cp-name{font-size:15px;font-weight:600;word-break:break-word;}
-  .cp-rank{color:var(--ink-soft);font-weight:500;margin-right:6px;font-size:13px;}
-  .cp-profit{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:500;white-space:nowrap;}
-  .cp-track{height:6px;background:#EFEBE0;border-radius:4px;margin:9px 0 8px;overflow:hidden;}
-  .cp-fill{height:100%;border-radius:4px;}
-  .cp-meta{font-size:12px;color:var(--ink-soft);display:flex;gap:3px 12px;flex-wrap:wrap;align-items:center;}
-  .cp-tag{font-size:11px;padding:2px 7px;border-radius:5px;margin-left:6px;white-space:nowrap;font-weight:500;vertical-align:middle;}
-  .cp-tag.good{background:var(--purchase-soft);color:var(--purchase);}
-  .cp-tag.warn{background:var(--soon-soft);color:var(--soon);}
-  .cp-tag.bad{background:var(--overdue-soft);color:var(--overdue);}
-  .cp-tag.info{background:var(--accent-soft);color:var(--accent);}
-  .cp-link{background:none;border:none;color:var(--accent);font-size:12px;cursor:pointer;padding:0;text-decoration:underline;}
-  .cp-note{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:13px;line-height:1.55;}
-  .cp-note.bad{border-left-color:var(--overdue);}
-  .cp-note.warn{border-left-color:var(--soon);}
-  .cp-note.good{border-left-color:var(--purchase);}
-  .cp-note.info{border-left-color:var(--accent);}
-  .cp-hint{font-size:12px;color:var(--ink-soft);line-height:1.5;}
-  .cp-empty{background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:22px 16px;text-align:center;color:var(--ink-soft);font-size:13px;line-height:1.7;}
-  .cp-err{background:var(--overdue-soft);color:var(--overdue);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:12px;}
-  .cp-item{display:flex;justify-content:space-between;gap:10px;align-items:center;border-top:1px solid var(--line);padding:9px 0;font-size:13px;}
-  .cp-item .l{min-width:0;word-break:break-word;}
-  .cp-item .r{white-space:nowrap;display:flex;gap:10px;}
-  .cp-line{display:grid;grid-template-columns:1.6fr .8fr .8fr auto;gap:6px;margin-bottom:8px;align-items:center;}
-  .cp-line select,.cp-line input{
-    border:1px solid var(--line);border-radius:7px;padding:9px 8px;font-size:14px;font-family:inherit;
-    color:var(--ink);background:#FCFBF8;outline:none;min-width:0;width:100%;
-  }
-  .cp-x{background:none;border:none;color:var(--ink-soft);font-size:18px;cursor:pointer;padding:4px 6px;}
-  .cp-preview{background:var(--accent-soft);border-radius:8px;padding:10px 12px;font-size:13px;line-height:1.6;margin:10px 0;}
-  #cpImpText{width:100%;min-height:150px;border:1px solid var(--line);border-radius:7px;padding:10px;font-size:13px;font-family:'IBM Plex Mono',monospace;background:#FCFBF8;outline:none;resize:vertical;}
-  @media (max-width:600px){
-    .cp-hero{grid-template-columns:1fr;}
-    .cp-stats{grid-template-columns:repeat(2,1fr);}
-    .cp-line{grid-template-columns:1fr 1fr auto;}
-    .cp-line .cp-ing{grid-column:1/-1;}
-  }
+.ocr-cands{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px;width:100%}.ocr-cand-label{font-size:12px;color:#8a8478}.ocr-chip{border:1px solid #d9d3c7;background:#fff;border-radius:999px;padding:4px 10px;font-size:13px;cursor:pointer}.ocr-chip:active{background:#efe9dc}
 </style>
 </head>
 <body>
@@ -496,7 +435,6 @@
   <div class="top-tabs" id="topTabs">
     <div class="top-tab active" data-tab="orders" id="tabOrdersBtn" data-i18n="tab_orders">🍅 订单 / 采购</div>
     <div class="top-tab" data-tab="expenses" id="tabExpensesBtn" data-i18n="tab_expenses">🧾 支出记录</div>
-    <div class="top-tab" data-tab="cost" id="tabCostBtn" data-i18n="tab_cost">💰 成本利润</div>
   </div>
 
   <div id="viewOrders">
@@ -707,6 +645,7 @@
             <img id="receiptPreviewImg" class="receipt-preview-img" alt="收据预览">
             <div class="receipt-preview-actions">
               <span id="receiptOcrStatus" class="receipt-ocr-status"></span>
+              <div id="receiptOcrCands" class="ocr-cands"></div>
               <button type="button" class="btn-secondary" id="removeReceiptBtn" data-i18n="btn_remove_receipt">移除图片</button>
             </div>
           </div>
@@ -812,106 +751,6 @@
 
   </div>
 
-  <div id="viewCost" style="display:none;">
-
-    <div class="topbar">
-      <div>
-        <p class="title" data-zh="成本利润" data-en="Cost &amp; Profit">成本利润</p>
-        <p class="subtitle" id="cpSubtitle"></p>
-      </div>
-      <div class="add-group">
-        <button class="btn-add cost" id="cpIngBtn" data-zh="🧂 原料价格" data-en="🧂 Ingredients">🧂 原料价格</button>
-        <button class="btn-add cost2" id="cpRecBtn" data-zh="🧾 配方" data-en="🧾 Recipes">🧾 配方</button>
-        <button class="btn-secondary" id="cpImpBtn" data-zh="📥 批量导入" data-en="📥 Import">📥 批量导入</button>
-      </div>
-    </div>
-
-    <div id="cpErr"></div>
-
-    <!-- 原料价格 -->
-    <div class="panel" id="cpIngPanel">
-      <p class="panel-title" data-zh="原料价格表（填买价和数量，自动算每克/每毫升/每个多少钱）" data-en="Ingredient prices (enter price &amp; pack size, unit cost is automatic)">原料价格表</p>
-      <div class="form-grid">
-        <div class="field full">
-          <label data-zh="原料名称" data-en="Ingredient">原料名称</label>
-          <input type="text" id="cpIngName" data-ph-zh="例如：咖啡豆" data-ph-en="e.g. Coffee beans">
-        </div>
-        <div class="field">
-          <label data-zh="买价 (RM)" data-en="Price paid (RM)">买价 (RM)</label>
-          <input type="number" id="cpIngPrice" step="0.01" min="0" inputmode="decimal">
-        </div>
-        <div class="field">
-          <label data-zh="买的数量" data-en="Pack size">买的数量</label>
-          <input type="number" id="cpIngQty" step="any" min="0" inputmode="decimal">
-        </div>
-        <div class="field">
-          <label data-zh="单位" data-en="Unit">单位</label>
-          <select id="cpIngUnit">
-            <option value="g">g</option>
-            <option value="kg">kg</option>
-            <option value="ml">ml</option>
-            <option value="l">L</option>
-            <option value="pcs">个 / pcs</option>
-          </select>
-        </div>
-        <div class="field" style="justify-content:flex-end;"><div class="cp-hint" id="cpIngHint"></div></div>
-      </div>
-      <div class="form-actions">
-        <button class="btn-secondary" id="cpIngClose" data-zh="关闭" data-en="Close">关闭</button>
-        <button class="btn-primary" id="cpIngSave" data-zh="保存原料" data-en="Save">保存原料</button>
-      </div>
-      <div id="cpIngList" style="margin-top:14px;"></div>
-    </div>
-
-    <!-- 配方 -->
-    <div class="panel" id="cpRecPanel">
-      <p class="panel-title" data-zh="配方（一份商品用了哪些原料）" data-en="Recipe (what goes into one unit)">配方</p>
-      <div class="field full" style="margin-bottom:12px;">
-        <label data-zh="商品" data-en="Product">商品</label>
-        <select id="cpRecProduct"></select>
-      </div>
-      <div class="cp-hint" id="cpRecUnitHint" style="margin-bottom:10px;"></div>
-      <div id="cpRecLines"></div>
-      <button type="button" class="btn-secondary" id="cpRecAddLine" data-zh="+ 加一种原料" data-en="+ Add ingredient">+ 加一种原料</button>
-      <div class="field" style="max-width:260px;margin-top:12px;">
-        <label data-zh="额外成本 RM / 份（选填，例如没拆开的包装、直接填的成本）" data-en="Extra cost RM per unit (optional)">额外成本</label>
-        <input type="number" id="cpRecExtra" step="0.01" min="0" inputmode="decimal">
-      </div>
-      <div class="cp-preview" id="cpRecPreview"></div>
-      <div class="form-actions" style="justify-content:space-between;">
-        <button class="btn-secondary" id="cpRecClose" data-zh="关闭" data-en="Close">关闭</button>
-        <div style="display:flex;gap:10px;">
-          <button class="btn-secondary" id="cpRecClear" data-zh="清除配方" data-en="Clear">清除配方</button>
-          <button class="btn-primary" id="cpRecSave" data-zh="保存配方" data-en="Save">保存配方</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 批量导入 -->
-    <div class="panel" id="cpImpPanel">
-      <p class="panel-title" data-zh="批量导入（把整理好的文字贴在这里）" data-en="Bulk import (paste prepared text)">批量导入</p>
-      <p class="cp-hint" data-zh="每行一条，用逗号分隔：&#10;原料,名称,买价,数量,单位&#10;配方,商品,原料,用量,单位&#10;额外,商品,RM金额&#10;同名的原料会更新价格；商品的配方以导入的为准（整份覆盖）。" data-en="One per line, comma separated: Ingredient,name,price,size,unit / Recipe,product,ingredient,amount,unit / Extra,product,RM. Same-name ingredients are updated; a product's recipe is replaced by the imported one." style="white-space:pre-line;">&nbsp;</p>
-      <textarea id="cpImpText" spellcheck="false"></textarea>
-      <div id="cpImpResult" class="cp-hint" style="margin-top:8px;white-space:pre-line;"></div>
-      <div class="form-actions">
-        <button class="btn-secondary" id="cpImpClose" data-zh="关闭" data-en="Close">关闭</button>
-        <button class="btn-primary" id="cpImpGo" data-zh="导入" data-en="Import">导入</button>
-      </div>
-    </div>
-
-    <div class="filters" id="cpPeriods">
-      <div class="cp-chip active" data-cp="month" data-zh="本月" data-en="This month">本月</div>
-      <div class="cp-chip" data-cp="lastMonth" data-zh="上月" data-en="Last month">上月</div>
-      <div class="cp-chip" data-cp="last30" data-zh="近30天" data-en="Last 30d">近30天</div>
-      <div class="cp-chip" data-cp="quarter" data-zh="本季度" data-en="This quarter">本季度</div>
-      <div class="cp-chip" data-cp="year" data-zh="今年" data-en="This year">今年</div>
-      <div class="cp-chip" data-cp="all" data-zh="全部" data-en="All time">全部</div>
-    </div>
-
-    <div id="cpBody"></div>
-
-  </div>
-
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" crossorigin="anonymous"></script>
@@ -928,7 +767,6 @@ let currentLang = localStorage.getItem(LANG_KEY) || 'mix';
 const I18N = {
   tab_orders:            { zh:'🍅 订单 / 采购', en:'🍅 Orders / Purchases', mix:'🍅 订单/采购 Orders' },
   tab_expenses:          { zh:'🧾 支出记录', en:'🧾 Expenses', mix:'🧾 支出记录 Expenses' },
-  tab_cost:              { zh:'💰 成本利润', en:'💰 Cost & Profit', mix:'💰 成本利润 Profit' },
   login_title:           { zh:'🍅 番茄工作台', en:'🍅 Tomato Workbench', mix:'🍅 番茄工作台 Tomato Workbench' },
   login_sub:             { zh:'登录后才能查看和修改订单', en:'Log in to view and edit records', mix:'登录后才能查看和修改订单 Log in to continue' },
   lbl_email:             { zh:'邮箱', en:'Email', mix:'邮箱 Email' },
@@ -1083,6 +921,8 @@ const I18N = {
   ocr_found:             { zh:'✓ 识别到金额 ', en:'✓ Detected amount ', mix:'✓ 识别到金额 Detected: ' },
   ocr_found_cny:         { zh:'✓ 识别到人民币收据，金额 ', en:'✓ Detected a CNY receipt, amount ', mix:'✓ 识别到人民币收据 Detected CNY receipt: ' },
   ocr_found_suffix:      { zh:'，请核对是否正确', en:', please double-check it', mix:'，请核对 please check' },
+  ocr_pick_other:        { zh:'不对？点选其他金额：', en:'Wrong? Tap another amount:', mix:'不对？点选 Tap another:' },
+  ocr_unsure:            { zh:'⚠ 没找到明确的“Total”，先填了最可能的金额，请核对：', en:'⚠ Could not clearly find the Total; filled the most likely amount, please check: ', mix:'⚠ 没找到明确 Total，请核对 Please check: ' },
   ocr_not_found:         { zh:'没能自动识别出金额，请手动填写', en:'Could not auto-detect an amount, please enter it manually', mix:'没能自动识别，请手动填写 Please enter manually' },
   ocr_failed:            { zh:'识别失败，请手动填写金额', en:'Detection failed, please enter the amount manually', mix:'识别失败，请手动填写 Detection failed' },
   err_img_process:       { zh:'图片处理失败，请换一张试试', en:'Image processing failed, please try another photo', mix:'图片处理失败，请换一张 Try another photo' },
@@ -1182,7 +1022,6 @@ function applyLang(){
   if(typeof setKind === 'function' && typeof currentKind !== 'undefined'){ try{ setKind(currentKind); }catch(e){} }
   if(typeof render === 'function'){ try{ render(); }catch(e){} }
   if(typeof renderExpenses === 'function'){ try{ renderExpenses(); }catch(e){} }
-  if(typeof renderCost === 'function'){ try{ var _cv=document.getElementById('viewCost'); if(_cv && _cv.style.display !== 'none') renderCost(); }catch(e){} }
   const calPanel = document.getElementById('calendarPanel');
   if(calPanel && calPanel.classList.contains('open') && typeof renderCalendar === 'function'){
     try{ renderCalendar(); if(typeof calSelectedDate !== 'undefined' && calSelectedDate) renderCalDayDetail(calSelectedDate); }catch(e){}
@@ -1580,42 +1419,151 @@ function compressImageFile(file, maxDim, quality){
   });
 }
 
-/* 收据文字识别：尽量猜出总金额和日期，仅供参考，用户保存前都能核对/修改 */
-function parseReceiptText(text){
-  const result = { amount: null, date: null, isCNY: false };
-  const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
-  const numRe = /(\d{1,3}(?:[,\.]\d{3})*(?:\.\d{1,2})|\d+\.\d{2})/;
-  const totalKeywords = ['grand total','total due','amount due','net total','total','jumlah','实付','应付','合计','总计'];
-  let bestAmount = null;
-  for(const kw of totalKeywords){
-    for(const line of lines){
-      if(line.toLowerCase().includes(kw)){
-        const m = line.match(numRe);
-        if(m){
-          const val = parseFloat(m[1].replace(/,/g,''));
-          if(!isNaN(val)) bestAmount = val;
+/* OCR 专用图片预处理：和存档用的压缩图分开。放大小图、取墨迹最深的通道、拉开对比，识别准确率高很多 */
+function prepareImageForOcr(file){
+  return new Promise((resolve) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      try{
+        let { width, height } = img;
+        // 先裁掉截图四周的黑边/深色背景，只留下亮色的收据部分
+        let sx = 0, sy = 0, sw = width, sh = height;
+        try{
+          const k = Math.min(1, 300 / Math.max(width, height));
+          const tw = Math.max(1, Math.round(width * k)), th = Math.max(1, Math.round(height * k));
+          const tc = document.createElement('canvas'); tc.width = tw; tc.height = th;
+          const tx = tc.getContext('2d'); tx.drawImage(img, 0, 0, tw, th);
+          const td = tx.getImageData(0, 0, tw, th).data;
+          const rows = new Uint32Array(th), cols = new Uint32Array(tw);
+          for(let y = 0; y < th; y++) for(let x = 0; x < tw; x++){
+            const i = (y * tw + x) * 4;
+            if(Math.min(td[i], td[i+1], td[i+2]) > 130){ rows[y]++; cols[x]++; }
+          }
+          const rMin = tw * 0.3, cMin = th * 0.3;
+          let y0 = 0, y1 = th - 1, x0 = 0, x1 = tw - 1;
+          while(y0 < th && rows[y0] < rMin) y0++;
+          while(y1 > y0 && rows[y1] < rMin) y1--;
+          while(x0 < tw && cols[x0] < cMin) x0++;
+          while(x1 > x0 && cols[x1] < cMin) x1--;
+          if(x1 - x0 > tw * 0.25 && y1 - y0 > th * 0.15 && ((x1 - x0) < tw * 0.95 || (y1 - y0) < th * 0.95)){
+            const m = -2;
+            sx = Math.max(0, Math.round((x0 - m) / k)); sy = Math.max(0, Math.round((y0 - m) / k));
+            sw = Math.min(width - sx, Math.round((x1 - x0 + 2 * m) / k)); sh = Math.min(height - sy, Math.round((y1 - y0 + 2 * m) / k));
+            width = sw; height = sh;
+          }
+        }catch(_){ sx = 0; sy = 0; sw = img.width; sh = img.height; width = sw; height = sh; }
+        const shortSide = Math.min(width, height), longSide = Math.max(width, height);
+        let scale = 1;
+        if(shortSide < 1500) scale = 1500 / shortSide;
+        if(longSide * scale > 3200) scale = 3200 / longSide;
+        const w = Math.round(width * scale), h = Math.round(height * scale);
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, w, h);
+        // 光照校正：估出每处的背景亮度再相除，去掉阴影/折痕/反光造成的明暗不均
+        const sm = document.createElement('canvas');
+        const sk = 12;
+        sm.width = Math.max(2, Math.round(w / sk)); sm.height = Math.max(2, Math.round(h / sk));
+        const sctx = sm.getContext('2d');
+        sctx.imageSmoothingQuality = 'high';
+        sctx.drawImage(canvas, 0, 0, sm.width, sm.height);
+        const bgc = document.createElement('canvas'); bgc.width = w; bgc.height = h;
+        const bctx = bgc.getContext('2d');
+        bctx.imageSmoothingQuality = 'high';
+        bctx.drawImage(sm, 0, 0, w, h);
+        const bgd = bctx.getImageData(0, 0, w, h).data;
+        const id = ctx.getImageData(0, 0, w, h);
+        const d = id.data;
+        const hist = new Uint32Array(256);
+        for(let i = 0; i < d.length; i += 4){
+          const g = Math.min(d[i], d[i+1], d[i+2]);
+          const bg = Math.max(30, Math.min(bgd[i], bgd[i+1], bgd[i+2]));
+          let v = g / bg * 235;
+          v = v > 255 ? 255 : v;
+          d[i] = v; hist[v | 0]++;
         }
-      }
+        const total = w * h;
+        let acc = 0, lo = 0, hi = 255;
+        for(let v = 0; v < 256; v++){ acc += hist[v]; if(acc >= total * 0.01){ lo = v; break; } }
+        acc = 0;
+        for(let v = 255; v >= 0; v--){ acc += hist[v]; if(acc >= total * 0.005){ hi = v; break; } }
+        const span = Math.max(40, hi - lo);
+        for(let i = 0; i < d.length; i += 4){
+          let v = (d[i] - lo) * 255 / span;
+          v = v < 0 ? 0 : v > 255 ? 255 : v;
+          d[i] = d[i+1] = d[i+2] = v;
+        }
+        ctx.putImageData(id, 0, 0);
+        URL.revokeObjectURL(url);
+        resolve(canvas.toDataURL('image/png'));
+      }catch(e){ URL.revokeObjectURL(url); resolve(null); }
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); resolve(null); };
+    img.src = url;
+  });
+}
+
+/* 收据文字识别：找出总金额（候选按可信度排序）和日期，仅供参考，用户保存前都能核对/修改 */
+function parseReceiptText(text){
+  const result = { amount: null, candidates: [], date: null, isCNY: false };
+  const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+  const amtG = /(?<![\d.])(\d{1,3}(?:,\d{3})+|\d+)\s?[.,]\s?(\d{2})(?!\d)/g;
+  const amountsIn = (line) => {
+    const out = []; let m; amtG.lastIndex = 0;
+    while((m = amtG.exec(line))){
+      const v = parseFloat(m[1].replace(/,/g,'') + '.' + m[2]);
+      if(!isNaN(v) && v > 0) out.push(v);
     }
-    if(bestAmount !== null) break;
+    return out;
+  };
+  const strongRe = /(net\s*total|grand\s*total|total\s*due|amount\s*due|total\s*payable|total\s*amount|amount\s*payable|jumlah\s*(besar|bersih|bayaran)?|实付|应付|实收|合计|总计|总额|订单金额|付款金额)/i;
+  const weakRe = /total|amount|jumlah/i;
+  const subRe = /sub\s*-?\s*total|total\s*(qty|item|quantity|gst|sst|tax|saving|discount|disc)|before|excl|gst|sst|tax|cukai|discount|diskaun|saving/i;
+  const skipRe = /cash|change|tender|tunai|baki|rounding|round\s*adj|现金|找零|找钱|找赎|points?|mata/i;
+  const cand = new Map(); // value -> score
+  const add = (v, s) => { if(!cand.has(v) || cand.get(v) < s) cand.set(v, s); };
+
+  let cashVal = null, changeVal = null;
+  lines.forEach((line, i) => {
+    const lower = line.toLowerCase();
+    let vals = amountsIn(line);
+    if(!vals.length && i + 1 < lines.length && /(total|jumlah|合计|总计|实付|应付|amount)/i.test(line) && !skipRe.test(lines[i+1])){
+      const nv = amountsIn(lines[i+1]);
+      if(nv.length === 1 && lines[i+1].replace(/[^\d]/g,'').length <= 7) vals = nv;
+    }
+    if(!vals.length) return;
+    const v = vals[vals.length - 1];
+    if(/cash|tunai|现金/i.test(lower) && !/cashier|cashless/i.test(lower)) cashVal = v;
+    if(/change|baki|找零|找钱/i.test(lower)) changeVal = v;
+    if(skipRe.test(lower)) return;
+    if(/sub\s*-?\s*total/i.test(lower)){ add(v, 1); return; }
+    if(subRe.test(lower) && !strongRe.test(lower)) return;
+    if(/实付|实收|付款金额|应付|amount\s*due|net\s*total|total\s*due|total\s*payable/i.test(lower)) add(v, 3.5);
+    else if(strongRe.test(lower)) add(v, 3);
+    else if(weakRe.test(lower)) add(v, 2);
+  });
+  if(cashVal !== null && changeVal !== null && cashVal >= changeVal){
+    const v = Math.round((cashVal - changeVal) * 100) / 100;
+    if(v > 0) add(v, cand.has(v) ? 4 : 2);
   }
-  if(bestAmount === null){
-    let max = null;
-    const allMatches = text.match(/\d+\.\d{2}/g) || [];
-    allMatches.forEach(s => {
-      const v = parseFloat(s);
-      if(!isNaN(v) && (max === null || v > max)) max = v;
-    });
-    bestAmount = max;
-  }
-  result.amount = bestAmount;
+  // 兜底：全部金额里取最大的（现金/找零行已排除）
+  const all = [];
+  lines.forEach(l => { if(!skipRe.test(l)) amountsIn(l).forEach(v => all.push(v)); });
+  if(all.length){ add(Math.max(...all), cand.has(Math.max(...all)) ? cand.get(Math.max(...all)) : 0.5); }
+
+  const ranked = [...cand.entries()].sort((a, b) => b[1] - a[1] || b[0] - a[0]).map(e => e[0]);
+  result.candidates = ranked.slice(0, 4);
+  result.amount = ranked.length ? ranked[0] : null;
+  result.confident = ranked.length > 0 && cand.get(ranked[0]) >= 2;
   result.isCNY = /[¥￥]/.test(text) || /人民币|CNY|RMB/i.test(text);
 
   const isoMatch = text.match(/(\d{4})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})(?!\d)/);
   if(isoMatch){
     const [, y, m, d] = isoMatch;
     const month = parseInt(m,10), day = parseInt(d,10);
-    if(month >= 1 && month <= 12 && day >= 1 && day <= 31){
+    if(month >= 1 && month <= 12 && day >= 1 && day <= 31 && +y >= 2000 && +y <= new Date().getFullYear() + 1){
       result.date = y + '-' + String(month).padStart(2,'0') + '-' + String(day).padStart(2,'0');
     }
   }
@@ -1634,24 +1582,54 @@ function parseReceiptText(text){
   return result;
 }
 
-async function runReceiptOcr(dataUrl){
+function setOcrAmount(val, isCNY){
+  if(isCNY){
+    document.getElementById('e_currency').value = 'CNY';
+    document.getElementById('e_cny_amount').value = val.toFixed(2);
+    applyCurrencyMode('CNY');
+  }else{
+    document.getElementById('e_amount').value = val.toFixed(2);
+  }
+}
+function renderOcrCandidates(cands, isCNY){
+  const box = document.getElementById('receiptOcrCands');
+  if(!box) return;
+  box.innerHTML = '';
+  if(!cands || cands.length < 2) return;
+  const lab = document.createElement('span');
+  lab.className = 'ocr-cand-label';
+  lab.textContent = t('ocr_pick_other');
+  box.appendChild(lab);
+  cands.forEach(v => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'ocr-chip';
+    b.textContent = (isCNY ? '¥' : 'RM') + v.toFixed(2);
+    b.addEventListener('click', () => { setOcrAmount(v, isCNY); });
+    box.appendChild(b);
+  });
+}
+
+async function runReceiptOcr(ocrSrc){
   const statusEl = document.getElementById('receiptOcrStatus');
   if(statusEl) statusEl.textContent = t('ocr_running');
+  renderOcrCandidates([], false);
   try{
-    const { data } = await Tesseract.recognize(dataUrl, 'eng+chi_sim');
+    const worker = await Tesseract.createWorker('eng+chi_sim');
+    try{ await worker.setParameters({ tessedit_pageseg_mode: '4', preserve_interword_spaces: '1' }); }catch(_){}
+    const { data } = await worker.recognize(ocrSrc);
+    try{ await worker.terminate(); }catch(_){}
     const parsed = parseReceiptText(data.text || '');
     if(parsed.amount !== null){
+      const amtInput = document.getElementById('e_amount');
+      const cnyAmtInput = document.getElementById('e_cny_amount');
       if(parsed.isCNY){
-        document.getElementById('e_currency').value = 'CNY';
-        const cnyAmtInput = document.getElementById('e_cny_amount');
-        if(!cnyAmtInput.value) cnyAmtInput.value = parsed.amount.toFixed(2);
-        await applyCurrencyMode('CNY');
+        if(!cnyAmtInput.value) setOcrAmount(parsed.amount, true);
         if(statusEl) statusEl.textContent = t('ocr_found_cny') + '¥' + parsed.amount.toFixed(2) + t('ocr_found_suffix');
       }else{
-        const amtInput = document.getElementById('e_amount');
         if(amtInput && !amtInput.value) amtInput.value = parsed.amount.toFixed(2);
-        if(statusEl) statusEl.textContent = t('ocr_found') + 'RM' + parsed.amount.toFixed(2) + t('ocr_found_suffix');
+        if(statusEl) statusEl.textContent = parsed.confident ? (t('ocr_found') + 'RM' + parsed.amount.toFixed(2) + t('ocr_found_suffix')) : (t('ocr_unsure') + 'RM' + parsed.amount.toFixed(2));
       }
+      renderOcrCandidates(parsed.candidates, parsed.isCNY);
     }else{
       if(statusEl) statusEl.textContent = t('ocr_not_found');
     }
@@ -1687,6 +1665,7 @@ function resetExpenseForm(){
   document.getElementById('receiptEmptyState').style.display = '';
   document.getElementById('receiptPreviewState').style.display = 'none';
   document.getElementById('receiptOcrStatus').textContent = '';
+  const _oc = document.getElementById('receiptOcrCands'); if(_oc) _oc.innerHTML = '';
 }
 
 let cnyRateCache = null;
@@ -1829,7 +1808,7 @@ async function handleReceiptFileSelected(file){
     document.getElementById('receiptPreviewState').style.display = '';
     document.getElementById('receiptPreviewImg').src = dataUrl;
     if(statusEl) statusEl.textContent = '';
-    runReceiptOcr(dataUrl);
+    prepareImageForOcr(workingFile).then(src => runReceiptOcr(src || dataUrl));
   }catch(err){
     console.error('图片处理失败', err);
     alert(t('err_img_process'));
@@ -2103,16 +2082,12 @@ on('downloadExcelBtn', 'click', () => {
 
 on('tabOrdersBtn', 'click', () => switchTopTab('orders'));
 on('tabExpensesBtn', 'click', () => switchTopTab('expenses'));
-on('tabCostBtn', 'click', () => switchTopTab('cost'));
 function switchTopTab(tab){
   document.getElementById('viewOrders').style.display = (tab === 'orders') ? '' : 'none';
   document.getElementById('viewExpenses').style.display = (tab === 'expenses') ? '' : 'none';
-  document.getElementById('viewCost').style.display = (tab === 'cost') ? '' : 'none';
   document.getElementById('tabOrdersBtn').classList.toggle('active', tab === 'orders');
   document.getElementById('tabExpensesBtn').classList.toggle('active', tab === 'expenses');
-  document.getElementById('tabCostBtn').classList.toggle('active', tab === 'cost');
   if(tab === 'expenses') renderExpenses();
-  if(tab === 'cost'){ initCostSync(); renderCost(); }
 }
 
 /* ================= /支出记录 ================= */
@@ -3033,740 +3008,6 @@ document.querySelectorAll('.chip').forEach(chip => {
     render();
   });
 });
-
-
-/* ================= 成本利润 ================= */
-// 销售数据读自 POS 的 pos_sales（同一个 Firebase 项目）；原料与配方存在 cost_ingredients / cost_recipes
-const CP_UNITS = {
-  g:   { dim:'m', f:1,    label:'g'  },
-  kg:  { dim:'m', f:1000, label:'kg' },
-  ml:  { dim:'v', f:1,    label:'ml' },
-  l:   { dim:'v', f:1000, label:'L'  },
-  pcs: { dim:'c', f:1,    label:'个' }
-};
-const CP_LOW_MARGIN = 0.30;      // 低于这个毛利率 = 低毛利
-const CP_TARGET_MARGIN = 0.40;   // 建议售价按这个毛利率反推
-const CP_STALE_DAYS = 90;        // 原料价格多少天没更新算"过期"
-
-let cpInited = false;
-let cpSales = [];
-let cpIngs = [];
-let cpRecipes = [];
-let cpPeriod = 'month';
-let cpSyncErr = '';
-let cpRecDraft = null;
-let cpIngEditId = null;
-let cpTimer = null;
-
-// 语言：zh / en / mix（mix 下短标签中英并列，长句只用中文）
-function cpL(zh, en, short){
-  if(currentLang === 'en') return en;
-  if(currentLang === 'mix' && short) return zh + ' ' + en;
-  return zh;
-}
-function cpRM(n){
-  if(!isFinite(n)) return 'RM0.00';
-  const neg = n < 0;
-  const s = Math.abs(n).toLocaleString('en-US', { minimumFractionDigits:2, maximumFractionDigits:2 });
-  return (neg ? '-' : '') + 'RM' + s;
-}
-function cpPct(x){ return (x * 100).toFixed(0) + '%'; }
-function cpNum(n){ return (Math.round(n * 100) / 100).toString(); }
-function cpKey(name){ return String(name || '').trim().toLowerCase().replace(/\s+/g, ' '); }
-function cpUid(p){ return p + Date.now() + '_' + Math.random().toString(36).slice(2, 6); }
-function cpRecId(key){ return 'r_' + encodeURIComponent(key); }
-function cpParseUnit(u){
-  const map = { g:'g', '克':'g', kg:'kg', '公斤':'kg', '千克':'kg', ml:'ml', '毫升':'ml', l:'l', '升':'l',
-    pcs:'pcs', pc:'pcs', '个':'pcs', '件':'pcs', '只':'pcs', '片':'pcs', '包':'pcs', '张':'pcs', '颗':'pcs' };
-  return map[String(u || '').trim().toLowerCase()] || null;
-}
-
-/* ---------- 数据同步（打开这个页面时才读取） ---------- */
-function initCostSync(){
-  if(cpInited) return;
-  if(!db){ cpSyncErr = cpL('云端数据库未连接，无法读取销售数据。', 'Database not connected.'); return; }
-  cpInited = true;
-  const fail = (what) => (err) => {
-    console.error('成本利润：读取失败 ' + what, err);
-    cpSyncErr = cpL('读取失败：' + what + '（可能是 Firestore 规则还没开放这个集合）', 'Failed to read ' + what + ' (check Firestore rules)');
-    cpSchedule();
-  };
-  db.collection('pos_sales').orderBy('timestampMs', 'desc').limit(3000).onSnapshot(
-    snap => { cpSales = snap.docs.map(d => d.data()); cpSchedule(); }, fail('pos_sales'));
-  db.collection('cost_ingredients').onSnapshot(
-    snap => { cpIngs = snap.docs.map(d => Object.assign({}, d.data(), { id: d.id })); cpSchedule(); }, fail('cost_ingredients'));
-  db.collection('cost_recipes').onSnapshot(
-    snap => { cpRecipes = snap.docs.map(d => Object.assign({}, d.data(), { id: d.id })); cpSchedule(); }, fail('cost_recipes'));
-}
-function cpSchedule(){
-  clearTimeout(cpTimer);
-  cpTimer = setTimeout(() => {
-    const v = document.getElementById('viewCost');
-    if(v && v.style.display !== 'none'){ renderCost(); }
-  }, 60);
-}
-
-/* ---------- 成本计算 ---------- */
-function cpIngPerBase(ing){
-  const u = CP_UNITS[ing.unit];
-  const price = Number(ing.price), qty = Number(ing.qty);
-  if(!u || !(price >= 0) || !(qty > 0)) return null;
-  return price / (qty * u.f);
-}
-function cpRecipeCost(rec){
-  if(!rec) return null;
-  let sum = Number(rec.extra) || 0;
-  let bad = false;
-  const lines = rec.lines || [];
-  lines.forEach(l => {
-    const ing = cpIngs.find(i => i.id === l.ingId);
-    const lu = CP_UNITS[l.unit];
-    if(!ing || !lu){ bad = true; return; }
-    const iu = CP_UNITS[ing.unit];
-    const per = cpIngPerBase(ing);
-    if(!iu || per === null || iu.dim !== lu.dim){ bad = true; return; }
-    sum += (Number(l.qty) || 0) * lu.f * per;
-  });
-  const has = lines.length > 0 || (Number(rec.extra) || 0) > 0;
-  return { unitCost: sum, bad, has };
-}
-function cpRecipeByKey(key){ return cpRecipes.find(r => r.key === key) || null; }
-
-/* ---------- 销售汇总 ---------- */
-function cpRange(p){
-  const now = new Date();
-  const y = now.getFullYear(), m = now.getMonth();
-  let s = 0, e = now.getTime() + 1;
-  if(p === 'month') s = new Date(y, m, 1).getTime();
-  else if(p === 'lastMonth'){ s = new Date(y, m - 1, 1).getTime(); e = new Date(y, m, 1).getTime(); }
-  else if(p === 'last30') s = e - 30 * 864e5;
-  else if(p === 'quarter') s = new Date(y, Math.floor(m / 3) * 3, 1).getTime();
-  else if(p === 'year') s = new Date(y, 0, 1).getTime();
-  const hasPrev = p !== 'all';
-  return { s, e, ps: hasPrev ? s - (e - s) : null, pe: hasPrev ? s : null };
-}
-function cpAgg(startMs, endMs){
-  const map = {};
-  let disc = 0, sub = 0, n = 0;
-  cpSales.forEach(sale => {
-    if(sale.voided) return;
-    const ts = Number(sale.timestampMs) || 0;
-    if(ts < startMs || ts >= endMs) return;
-    n++;
-    const subtotal = Number(sale.subtotal) || 0;
-    const total = Number(sale.total);
-    const f = (subtotal > 0 && isFinite(total)) ? total / subtotal : 1;   // 折扣按比例摊到每个商品
-    disc += Number(sale.discountAmount) || 0;
-    sub += subtotal;
-    (sale.items || []).forEach(it => {
-      let name = String(it.name || '').trim();
-      if(it.mode === 'tier') name = name.replace(/\s*\([^()]*\)\s*$/, '');   // 阶梯价会在名字后面加 (区间)
-      const key = cpKey(name);
-      if(!key) return;
-      const q = Number(it.qty) || 0;
-      const lt = Number(it.lineTotal) || 0;
-      const o = map[key] || (map[key] = { key, name, category: it.category || '', unit: it.mode === 'weight' ? 'kg' : 'pc', qty: 0, rev: 0, last: 0 });
-      o.qty += q; o.rev += lt * f;
-      if(ts >= o.last){ o.last = ts; o.name = name; if(it.category) o.category = it.category; }
-    });
-  });
-  return { map, disc, sub, n };
-}
-
-function cpCompute(period){
-  const r = cpRange(period);
-  const cur = cpAgg(r.s, r.e);
-  const prev = r.ps !== null ? cpAgg(r.ps, r.pe) : null;
-  const rows = Object.values(cur.map).map(p => {
-    const rec = cpRecipeByKey(p.key);
-    const c = cpRecipeCost(rec);
-    const costed = !!(c && !c.bad && c.has);
-    const recipeBad = !!(c && c.bad);
-    const cost = costed ? c.unitCost * p.qty : null;
-    const profit = costed ? p.rev - cost : null;
-    const margin = (costed && p.rev > 0) ? profit / p.rev : null;
-    const pq = prev && prev.map[p.key] ? prev.map[p.key].qty : 0;
-    const growth = (prev && pq > 0) ? (p.qty - pq) / pq : null;
-    const minNew = p.unit === 'kg' ? 2 : 3;
-    const isNew = !!(prev && pq === 0 && p.qty >= minNew);
-    return Object.assign({}, p, {
-      costed, recipeBad, unitCost: costed ? c.unitCost : null, cost, profit, margin,
-      avgPrice: p.qty > 0 ? p.rev / p.qty : 0, prevQty: pq, growth, isNew
-    });
-  });
-  const costedRows = rows.filter(x => x.costed).sort((a, b) => b.profit - a.profit);
-  const uncosted = rows.filter(x => !x.costed).sort((a, b) => b.rev - a.rev);
-  const totalRev = rows.reduce((s, x) => s + x.rev, 0);
-  const revCosted = costedRows.reduce((s, x) => s + x.rev, 0);
-  const totalProfit = costedRows.reduce((s, x) => s + x.profit, 0);
-  const margin = revCosted > 0 ? totalProfit / revCosted : null;
-  const coverage = totalRev > 0 ? revCosted / totalRev : 0;
-  const king = costedRows.length && costedRows[0].profit > 0 ? costedRows[0] : null;
-  const byRev = rows.slice().sort((a, b) => b.rev - a.rev);
-  const champ = byRev.length ? byRev[0] : null;
-  // 潜力新星：毛利率 ≥ 40%、销量在涨（或新品）、而且还不是利润王
-  const stars = costedRows.filter(x => x !== king && x.margin !== null && x.margin >= CP_TARGET_MARGIN
-    && ((x.growth !== null && x.growth >= 0.2) || x.isNew))
-    .sort((a, b) => (((b.growth === null ? 1 : b.growth) * b.margin) - ((a.growth === null ? 1 : a.growth) * a.margin)));
-  return { r, cur, prev, rows, costedRows, uncosted, totalRev, revCosted, totalProfit, margin, coverage, king, champ, stars, byRev };
-}
-
-/* ---------- 风险 & 建议 ---------- */
-function cpInsights(d){
-  const risks = [], tips = [];
-  const hasPrev = !!d.prev;
-  // —— 风险 ——
-  if(d.rows.length && d.coverage < 0.8){
-    risks.push({ lv: 'bad', t: cpL(
-      `有 ${cpPct(1 - d.coverage)} 的营收还没有成本，上面的毛利是被高估的。先把「缺成本」的商品配方补上。`,
-      `${cpPct(1 - d.coverage)} of revenue has no cost yet, so profit is overstated. Fill in the missing recipes.`) });
-  }
-  d.costedRows.filter(x => x.profit < 0).forEach(x => risks.push({ lv: 'bad', t: cpL(
-    `${x.name} 在亏本卖：平均售价 ${cpRM(x.avgPrice)}，成本 ${cpRM(x.unitCost)}。`,
-    `${x.name} is sold at a loss: avg price ${cpRM(x.avgPrice)}, cost ${cpRM(x.unitCost)}.`) }));
-  d.costedRows.filter(x => x.profit >= 0 && x.margin !== null && x.margin < CP_LOW_MARGIN).slice(0, 4).forEach(x => risks.push({ lv: 'warn', t: cpL(
-    `${x.name} 毛利率只有 ${cpPct(x.margin)}，低于 ${cpPct(CP_LOW_MARGIN)} 的安全线。`,
-    `${x.name} margin is only ${cpPct(x.margin)} (below ${cpPct(CP_LOW_MARGIN)}).`) }));
-  if(d.king && d.costedRows.length >= 3 && d.totalProfit > 0 && d.king.profit / d.totalProfit > 0.4){
-    risks.push({ lv: 'warn', t: cpL(
-      `利润太集中：${d.king.name} 一个就占了总毛利的 ${cpPct(d.king.profit / d.totalProfit)}，它一旦缺货或涨价，整体利润会明显下滑。`,
-      `Profit is concentrated: ${d.king.name} makes up ${cpPct(d.king.profit / d.totalProfit)} of gross profit.`) });
-  }
-  if(hasPrev){
-    d.rows.filter(x => x.growth !== null && x.growth <= -0.25 && x.prevQty >= (x.unit === 'kg' ? 2 : 3)).sort((a, b) => a.growth - b.growth).slice(0, 3).forEach(x => risks.push({ lv: 'warn', t: cpL(
-      `${x.name} 销量比上一段同样长度的时间下滑了 ${cpPct(-x.growth)}。`,
-      `${x.name} volume is down ${cpPct(-x.growth)} vs the previous period.`) }));
-  }
-  if(d.cur.sub > 0 && d.cur.disc / d.cur.sub > 0.08){
-    risks.push({ lv: 'warn', t: cpL(
-      `折扣吃掉了 ${cpPct(d.cur.disc / d.cur.sub)} 的销售额（${cpRM(d.cur.disc)}），利润已按折后价计算。`,
-      `Discounts took ${cpPct(d.cur.disc / d.cur.sub)} of sales (${cpRM(d.cur.disc)}); profit is calculated after discounts.`) });
-  }
-  const bad = d.rows.filter(x => x.recipeBad);
-  if(bad.length){
-    risks.push({ lv: 'warn', t: cpL(
-      `配方有问题（原料被删了或单位对不上）：${bad.map(x => x.name).join('、')}。`,
-      `Recipe errors (missing ingredient or unit mismatch): ${bad.map(x => x.name).join(', ')}.`) });
-  }
-  // 原料价格过期（只看卖得到的商品用到的原料）
-  const used = {};
-  d.costedRows.forEach(x => {
-    const rec = cpRecipeByKey(x.key);
-    (rec.lines || []).forEach(l => { used[l.ingId] = true; });
-  });
-  const now = Date.now();
-  const stale = cpIngs.filter(i => used[i.id] && i.updatedAt && (now - i.updatedAt) / 864e5 > CP_STALE_DAYS);
-  if(stale.length){
-    risks.push({ lv: 'info', t: cpL(
-      `这些原料的价格超过 ${CP_STALE_DAYS} 天没更新，成本可能不准：${stale.slice(0, 5).map(i => i.name).join('、')}。`,
-      `Ingredient prices not updated for ${CP_STALE_DAYS}+ days: ${stale.slice(0, 5).map(i => i.name).join(', ')}.`) });
-  }
-  // —— 建议 ——
-  if(d.king){
-    tips.push({ lv: 'good', t: cpL(
-      `${d.king.name} 是利润王（毛利 ${cpRM(d.king.profit)}，毛利率 ${cpPct(d.king.margin)}）。优先保证它不断货，摆在最显眼的位置。`,
-      `${d.king.name} is the profit leader (${cpRM(d.king.profit)}, ${cpPct(d.king.margin)} margin). Keep it in stock and front and centre.`) });
-  }
-  if(d.stars.length){
-    const s = d.stars[0];
-    const g = s.isNew && s.growth === null ? cpL('新品', 'new') : '+' + cpPct(s.growth);
-    tips.push({ lv: 'info', t: cpL(
-      `${s.name} 有潜力成为销冠：毛利率 ${cpPct(s.margin)}，销量 ${g}。可以试试放在收银台旁、做套餐或加大宣传，看销量能不能再往上冲。`,
-      `${s.name} could become a top seller: ${cpPct(s.margin)} margin, volume ${g}. Try promoting it at the counter or in a bundle.`) });
-  }
-  // 卖得多但赚得少：营收前3、毛利率 < 目标
-  d.byRev.slice(0, 3).filter(x => x.costed && x.margin !== null && x.margin < CP_TARGET_MARGIN).forEach(x => {
-    const target = x.unitCost / (1 - CP_TARGET_MARGIN);
-    const nice = Math.ceil(target * 2) / 2;
-    if(nice > x.avgPrice + 0.01){
-      tips.push({ lv: 'warn', t: cpL(
-        `${x.name} 是卖得最多的几样之一，但毛利率只有 ${cpPct(x.margin)}。售价从约 ${cpRM(x.avgPrice)} 调到 ${cpRM(nice)}（+${cpRM(nice - x.avgPrice)}），毛利率可达 ${cpPct(1 - x.unitCost / nice)} 以上。`,
-        `${x.name} sells a lot but margin is ${cpPct(x.margin)}. Raising price from ~${cpRM(x.avgPrice)} to ${cpRM(nice)} lifts margin to ${cpPct(1 - x.unitCost / nice)}.`) });
-    }
-  });
-  // 低毛利但不在前3：给调价/换料提示
-  d.costedRows.filter(x => x.margin !== null && x.margin < CP_LOW_MARGIN && !d.byRev.slice(0, 3).includes(x)).slice(0, 2).forEach(x => {
-    const nice = Math.ceil((x.unitCost / (1 - CP_TARGET_MARGIN)) * 2) / 2;
-    tips.push({ lv: 'warn', t: cpL(
-      `${x.name} 毛利率偏低（${cpPct(x.margin)}）：可以涨到约 ${cpRM(nice)}，或者看看哪种原料能换便宜的、减少用量。`,
-      `${x.name} margin is low (${cpPct(x.margin)}): raise price to ~${cpRM(nice)} or reduce / swap ingredients.`) });
-  });
-  if(d.uncosted.length){
-    const top = d.uncosted.slice(0, 3).map(x => x.name).join('、');
-    tips.push({ lv: 'info', t: cpL(
-      `还有 ${d.uncosted.length} 样商品没算成本，其中卖得最多的是：${top}。补上配方后，利润排名会更准。`,
-      `${d.uncosted.length} products have no cost yet; the biggest sellers: ${top}.`) });
-  }
-  if(!hasPrev && d.rows.length){
-    tips.push({ lv: 'info', t: cpL('「全部」时间段没有对比数据，看不到涨跌趋势；想找潜力款请切到本月或近30天。', 'No trend data for "All time"; switch to a shorter period to spot rising products.') });
-  }
-  return { risks, tips };
-}
-
-/* ---------- 渲染 ---------- */
-function cpStatic(){
-  document.querySelectorAll('#viewCost [data-zh]').forEach(el => {
-    const zh = el.getAttribute('data-zh'), en = el.getAttribute('data-en') || zh;
-    const long = zh.length > 14 || /[\n]/.test(zh);
-    el.textContent = cpL(zh, en, !long);
-  });
-  document.querySelectorAll('#viewCost [data-ph-zh]').forEach(el => {
-    el.setAttribute('placeholder', cpL(el.getAttribute('data-ph-zh'), el.getAttribute('data-ph-en') || '', false));
-  });
-}
-
-function cpQty(p){
-  if(p.unit === 'kg') return (Math.round(p.qty * 100) / 100) + ' kg';
-  return (Math.round(p.qty * 100) / 100) + cpL(' 件', ' pcs');
-}
-function cpMarginColor(m){
-  if(m === null) return 'var(--ink-soft)';
-  if(m < 0) return 'var(--overdue)';
-  if(m < CP_LOW_MARGIN) return 'var(--overdue)';
-  if(m < CP_TARGET_MARGIN) return 'var(--soon)';
-  return 'var(--purchase)';
-}
-
-function renderCost(){
-  cpStatic();
-  const body = document.getElementById('cpBody');
-  if(!body) return;
-  document.querySelectorAll('#cpPeriods .cp-chip').forEach(c => c.classList.toggle('active', c.dataset.cp === cpPeriod));
-  const errEl = document.getElementById('cpErr');
-  errEl.innerHTML = cpSyncErr ? `<div class="cp-err">${escapeHtml(cpSyncErr)}</div>` : '';
-
-  const d = cpCompute(cpPeriod);
-  const sub = document.getElementById('cpSubtitle');
-  const fmtD = ms => { const x = new Date(ms); return `${x.getFullYear()}.${x.getMonth() + 1}.${x.getDate()}`; };
-  sub.textContent = cpPeriod === 'all'
-    ? cpL(`共 ${d.cur.n} 张销售单（来自 POS）`, `${d.cur.n} sales (from POS)`)
-    : cpL(`${fmtD(d.r.s)} 至 ${fmtD(Math.min(d.r.e - 1, Date.now()))} · ${d.cur.n} 张销售单（来自 POS）`, `${fmtD(d.r.s)} – ${fmtD(Math.min(d.r.e - 1, Date.now()))} · ${d.cur.n} sales (from POS)`);
-
-  if(!d.rows.length){
-    body.innerHTML = `<div class="cp-empty">${escapeHtml(cpL(
-      '这个时间段还没有 POS 销售记录。换一个时间段看看，或者先用收银台记几单。',
-      'No POS sales in this period. Try another period.'))}</div>`;
-    cpRenderPanels();
-    return;
-  }
-
-  const ins = cpInsights(d);
-  let h = '';
-
-  // 三张主卡
-  const card = (cls, k, v, s) => `<div class="cp-card ${cls}"><div class="k">${escapeHtml(k)}</div><div class="v">${escapeHtml(v)}</div><div class="s">${escapeHtml(s)}</div></div>`;
-  h += '<div class="cp-hero">';
-  h += d.king
-    ? card('king', cpL('💰 利润王', '💰 Profit leader', true), d.king.name, cpL(`毛利 ${cpRM(d.king.profit)} · 毛利率 ${cpPct(d.king.margin)}`, `${cpRM(d.king.profit)} · ${cpPct(d.king.margin)} margin`))
-    : card('king', cpL('💰 利润王', '💰 Profit leader', true), '—', cpL('先填原料价格和配方，才能算出谁最赚钱', 'Add ingredients & recipes first'));
-  h += d.champ
-    ? card('champ', cpL('👑 销冠（营收第一）', '👑 Top seller (revenue)', true), d.champ.name, cpL(`营收 ${cpRM(d.champ.rev)} · 卖出 ${cpQty(d.champ)}`, `${cpRM(d.champ.rev)} · ${cpQty(d.champ)}`))
-    : card('champ', '👑', '—', '');
-  if(d.stars.length){
-    const s = d.stars[0];
-    const g = (s.isNew && s.growth === null) ? cpL('新品', 'new') : (s.growth >= 0 ? '+' : '') + cpPct(s.growth);
-    h += card('star', cpL('🚀 潜力新星', '🚀 Rising star', true), s.name, cpL(`毛利率 ${cpPct(s.margin)} · 销量 ${g}`, `${cpPct(s.margin)} margin · volume ${g}`));
-  }else{
-    h += card('star', cpL('🚀 潜力新星', '🚀 Rising star', true), '—', cpPeriod === 'all'
-      ? cpL('「全部」没有趋势对比，请切到本月看看', 'Pick a shorter period to see trends')
-      : cpL('暂时没有「毛利率高 + 销量在涨」的商品', 'No high-margin product is rising right now'));
-  }
-  h += '</div>';
-
-  // 四个数
-  const stat = (num, lbl, cls) => `<div class="stat ${cls || ''}"><div class="num">${escapeHtml(num)}</div><div class="lbl">${escapeHtml(lbl)}</div></div>`;
-  h += '<div class="cp-stats">'
-    + stat(cpRM(d.totalRev), cpL('营收（折后）', 'Revenue (net)', true))
-    + stat(d.costedRows.length ? cpRM(d.totalProfit) : '—', cpL('毛利', 'Gross profit', true))
-    + stat(d.margin !== null ? cpPct(d.margin) : '—', cpL('整体毛利率', 'Margin', true), d.margin !== null && d.margin < CP_LOW_MARGIN ? 'warn' : '')
-    + stat(cpPct(d.coverage), cpL('成本覆盖率', 'Cost coverage', true), d.coverage < 0.8 ? 'warn' : '')
-    + '</div>';
-  h += `<div class="cp-hint">${escapeHtml(cpL(
-    '毛利 = 折后营收 − 原料成本（不含人工、房租、水电）。成本覆盖率 = 已填成本的商品占总营收的比例。',
-    'Gross profit = net revenue − ingredient cost (excl. labour, rent, utilities).'))}</div>`;
-
-  // 风险 / 建议
-  if(ins.risks.length){
-    h += `<div class="cp-sec">${escapeHtml(cpL('⚠️ 潜在风险', '⚠️ Risks', true))}</div>`;
-    ins.risks.forEach(x => { h += `<div class="cp-note ${x.lv}">${escapeHtml(x.t)}</div>`; });
-  }
-  if(ins.tips.length){
-    h += `<div class="cp-sec">${escapeHtml(cpL('💡 自动建议', '💡 Suggestions', true))}</div>`;
-    ins.tips.forEach(x => { h += `<div class="cp-note ${x.lv}">${escapeHtml(x.t)}</div>`; });
-    h += `<div class="cp-hint">${escapeHtml(cpL('建议由固定规则根据你的数据自动计算，仅供参考。', 'Suggestions are rule-based on your data; for reference only.'))}</div>`;
-  }
-
-  // 利润排名
-  h += `<div class="cp-sec">${escapeHtml(cpL('📊 利润排名（毛利从高到低）', '📊 Profit ranking', true))}</div>`;
-  if(!d.costedRows.length){
-    h += `<div class="cp-empty">${escapeHtml(cpL(
-      '还没有任何商品算出成本。点右上角「🧂 原料价格」填原料，再点「🧾 配方」告诉我每个商品用了什么。',
-      'No product has a cost yet. Add ingredients, then recipes.'))}</div>`;
-  }
-  const maxP = Math.max.apply(null, d.costedRows.map(x => Math.abs(x.profit)).concat([0.01]));
-  const top3Rev = d.byRev.slice(0, 3);
-  d.costedRows.forEach((x, i) => {
-    let tags = '';
-    if(d.king === x) tags += `<span class="cp-tag good">${escapeHtml(cpL('💰利润王', '💰 Leader'))}</span>`;
-    if(d.champ === x) tags += `<span class="cp-tag info">${escapeHtml(cpL('👑销冠', '👑 Top'))}</span>`;
-    if(d.stars.includes(x)) tags += `<span class="cp-tag warn">${escapeHtml(cpL('🚀潜力', '🚀 Rising'))}</span>`;
-    if(x.isNew) tags += `<span class="cp-tag info">${escapeHtml(cpL('新品', 'New'))}</span>`;
-    if(x.profit < 0) tags += `<span class="cp-tag bad">${escapeHtml(cpL('亏本', 'Loss'))}</span>`;
-    else if(x.margin !== null && x.margin < CP_LOW_MARGIN) tags += `<span class="cp-tag bad">${escapeHtml(cpL('低毛利', 'Low margin'))}</span>`;
-    else if(top3Rev.includes(x) && x.margin !== null && x.margin < CP_TARGET_MARGIN) tags += `<span class="cp-tag warn">${escapeHtml(cpL('卖得多赚得少', 'High volume, thin margin'))}</span>`;
-    const w = Math.max(3, Math.abs(x.profit) / maxP * 100);
-    const col = cpMarginColor(x.margin);
-    const trend = x.growth !== null
-      ? `<span style="color:${x.growth >= 0 ? 'var(--purchase)' : 'var(--overdue)'}">${x.growth >= 0 ? '▲' : '▼'} ${cpPct(Math.abs(x.growth))}</span>`
-      : '';
-    h += `<div class="cp-row">
-      <div class="cp-r1"><div class="cp-name"><span class="cp-rank">${i + 1}</span>${escapeHtml(x.name)}${tags}</div>
-        <div class="cp-profit" style="color:${x.profit < 0 ? 'var(--overdue)' : 'var(--ink)'}">${cpRM(x.profit)}</div></div>
-      <div class="cp-track"><div class="cp-fill" style="width:${w}%;background:${col}"></div></div>
-      <div class="cp-meta">
-        <span>${escapeHtml(cpL('销量 ', 'Sold ') + cpQty(x))}</span>
-        <span>${escapeHtml(cpL('营收 ', 'Rev ') + cpRM(x.rev))}</span>
-        <span>${escapeHtml(cpL('成本 ', 'Cost ') + cpRM(x.cost))}</span>
-        <span style="color:${col};font-weight:600;">${escapeHtml(cpL('毛利率 ', 'Margin ') + (x.margin !== null ? cpPct(x.margin) : '—'))}</span>
-        ${trend}
-        <button class="cp-link" data-cp-edit="${escapeAttr(x.key)}">${escapeHtml(cpL('编辑配方', 'Edit recipe'))}</button>
-      </div></div>`;
-  });
-
-  if(d.uncosted.length){
-    h += `<div class="cp-sec">${escapeHtml(cpL('🕳 缺成本（还没算进利润）', '🕳 Missing cost (not in profit yet)', true))}</div>`;
-    d.uncosted.forEach(x => {
-      h += `<div class="cp-row">
-        <div class="cp-r1"><div class="cp-name">${escapeHtml(x.name)}<span class="cp-tag ${x.recipeBad ? 'bad' : 'warn'}">${escapeHtml(x.recipeBad ? cpL('配方有误', 'Recipe error') : cpL('缺成本', 'No cost'))}</span></div>
-          <div class="cp-profit" style="color:var(--ink-soft)">${cpRM(x.rev)}</div></div>
-        <div class="cp-meta"><span>${escapeHtml(cpL('销量 ', 'Sold ') + cpQty(x))}</span>
-          <button class="cp-link" data-cp-edit="${escapeAttr(x.key)}">${escapeHtml(cpL('补配方', 'Add recipe'))}</button></div></div>`;
-    });
-  }
-
-  body.innerHTML = h;
-  cpRenderPanels();
-}
-
-/* ---------- 原料面板 ---------- */
-function cpRenderPanels(){
-  if(document.getElementById('cpIngPanel').classList.contains('open')) cpRenderIngList();
-  if(document.getElementById('cpRecPanel').classList.contains('open')) cpRenderRecPanel(false);
-}
-function cpIngHint(){
-  const price = parseFloat(document.getElementById('cpIngPrice').value);
-  const qty = parseFloat(document.getElementById('cpIngQty').value);
-  const unit = document.getElementById('cpIngUnit').value;
-  const el = document.getElementById('cpIngHint');
-  if(!(price >= 0) || !(qty > 0)){ el.textContent = ''; return; }
-  const u = CP_UNITS[unit];
-  const per = price / (qty * u.f);
-  const baseLabel = u.dim === 'm' ? 'g' : (u.dim === 'v' ? 'ml' : cpL('个', 'pc'));
-  el.textContent = `≈ RM${per.toFixed(per < 0.1 ? 4 : 3)} / ${baseLabel}` + (u.dim !== 'c' ? `（RM${(per * 1000).toFixed(2)} / ${u.dim === 'm' ? 'kg' : 'L'}）` : '');
-}
-function cpRenderIngList(){
-  const box = document.getElementById('cpIngList');
-  if(!cpIngs.length){
-    box.innerHTML = `<div class="cp-hint">${escapeHtml(cpL('还没有原料。填上面的表单添加第一个。', 'No ingredients yet.'))}</div>`;
-    return;
-  }
-  const now = Date.now();
-  const list = cpIngs.slice().sort((a, b) => String(a.name).localeCompare(String(b.name)));
-  box.innerHTML = list.map(i => {
-    const per = cpIngPerBase(i);
-    const u = CP_UNITS[i.unit] || { label: i.unit, dim: 'c' };
-    const baseLabel = u.dim === 'm' ? 'g' : (u.dim === 'v' ? 'ml' : cpL('个', 'pc'));
-    const days = i.updatedAt ? Math.floor((now - i.updatedAt) / 864e5) : null;
-    const stale = days !== null && days > CP_STALE_DAYS;
-    return `<div class="cp-item"><div class="l"><b>${escapeHtml(i.name)}</b>
-      <span style="color:var(--ink-soft)"> · RM${cpNum(Number(i.price))} / ${cpNum(Number(i.qty))}${escapeHtml(u.label)}${per !== null ? ' → RM' + per.toFixed(per < 0.1 ? 4 : 3) + '/' + baseLabel : ''}</span>
-      ${stale ? `<span class="cp-tag warn">${escapeHtml(cpL(days + ' 天没更新', days + 'd old'))}</span>` : ''}</div>
-      <div class="r"><button class="cp-link" data-ing-edit="${escapeAttr(i.id)}">${escapeHtml(cpL('改', 'Edit'))}</button>
-      <button class="cp-link" style="color:var(--overdue)" data-ing-del="${escapeAttr(i.id)}">${escapeHtml(cpL('删', 'Del'))}</button></div></div>`;
-  }).join('');
-}
-function cpClearIngForm(){
-  cpIngEditId = null;
-  ['cpIngName', 'cpIngPrice', 'cpIngQty'].forEach(id => { document.getElementById(id).value = ''; });
-  document.getElementById('cpIngUnit').value = 'g';
-  document.getElementById('cpIngHint').textContent = '';
-  document.getElementById('cpIngSave').textContent = cpL('保存原料', 'Save');
-}
-async function cpSaveIng(){
-  const name = document.getElementById('cpIngName').value.trim();
-  const price = parseFloat(document.getElementById('cpIngPrice').value);
-  const qty = parseFloat(document.getElementById('cpIngQty').value);
-  const unit = document.getElementById('cpIngUnit').value;
-  if(!name || !(price >= 0) || !(qty > 0)){ alert(cpL('请填写原料名称、买价和数量（数量要大于 0）。', 'Enter name, price and a pack size > 0.')); return; }
-  let id = cpIngEditId;
-  if(!id){
-    const same = cpIngs.find(i => cpKey(i.name) === cpKey(name));
-    id = same ? same.id : cpUid('i_');
-  }
-  try{
-    await db.collection('cost_ingredients').doc(id).set({ name, price, qty, unit, updatedAt: Date.now() });
-    cpClearIngForm();
-  }catch(e){ console.error(e); alert(cpL('保存失败：', 'Save failed: ') + e.message); }
-}
-async function cpDeleteIng(id){
-  const ing = cpIngs.find(i => i.id === id);
-  if(!ing) return;
-  const usedBy = cpRecipes.filter(r => (r.lines || []).some(l => l.ingId === id)).map(r => r.name);
-  const msg = cpL(`删除「${ing.name}」？`, `Delete "${ing.name}"?`)
-    + (usedBy.length ? '\n' + cpL('它被这些商品的配方用到：', 'Used by: ') + usedBy.join('、') + '\n' + cpL('删除后这些商品会显示「配方有误」。', 'Those recipes will show an error.') : '');
-  if(!confirm(msg)) return;
-  try{ await db.collection('cost_ingredients').doc(id).delete(); }catch(e){ alert(e.message); }
-}
-
-/* ---------- 配方面板 ---------- */
-function cpProductOptions(){
-  const all = cpAgg(0, Infinity).map;
-  const items = Object.values(all).map(p => ({ key: p.key, name: p.name, rev: p.rev, unit: p.unit }));
-  cpRecipes.forEach(r => { if(!all[r.key]) items.push({ key: r.key, name: r.name, rev: -1, unit: 'pc' }); });
-  return items.sort((a, b) => b.rev - a.rev);
-}
-function cpOpenRecipe(key){
-  document.getElementById('cpRecPanel').classList.add('open');
-  cpLoadDraft(key || null);
-  cpRenderRecPanel(true);
-  document.getElementById('cpRecPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-function cpLoadDraft(key){
-  const opts = cpProductOptions();
-  const k = key || (opts[0] && opts[0].key) || null;
-  if(!k){ cpRecDraft = null; return; }
-  const p = opts.find(o => o.key === k);
-  const rec = cpRecipeByKey(k);
-  cpRecDraft = {
-    key: k, name: p ? p.name : (rec ? rec.name : k), unit: p ? p.unit : 'pc',
-    lines: rec ? (rec.lines || []).map(l => Object.assign({}, l)) : [],
-    extra: rec && rec.extra ? rec.extra : ''
-  };
-}
-function cpRenderRecPanel(reload){
-  const sel = document.getElementById('cpRecProduct');
-  const opts = cpProductOptions();
-  if(!opts.length){
-    sel.innerHTML = '';
-    document.getElementById('cpRecLines').innerHTML = `<div class="cp-hint">${escapeHtml(cpL('POS 里还没有销售记录，暂时没有商品可以填配方。', 'No products yet (no POS sales).'))}</div>`;
-    document.getElementById('cpRecPreview').textContent = '';
-    return;
-  }
-  if(!cpRecDraft) cpLoadDraft(null);
-  sel.innerHTML = opts.map(o => `<option value="${escapeAttr(o.key)}">${escapeHtml(o.name)}${cpRecipeByKey(o.key) ? ' ✓' : ''}</option>`).join('');
-  sel.value = cpRecDraft.key;
-  document.getElementById('cpRecUnitHint').textContent = cpRecDraft.unit === 'kg'
-    ? cpL('这个商品是按重量卖的：下面的用量请按「每 1 kg」填写。', 'Sold by weight: enter amounts per 1 kg.')
-    : cpL('下面的用量请按「卖出 1 份」填写。', 'Enter amounts for one unit sold.');
-  document.getElementById('cpRecExtra').value = cpRecDraft.extra === '' ? '' : cpRecDraft.extra;
-  const ingOpts = cpIngs.slice().sort((a, b) => String(a.name).localeCompare(String(b.name)));
-  const unitOpts = Object.keys(CP_UNITS).map(u => `<option value="${u}">${escapeHtml(CP_UNITS[u].label)}</option>`).join('');
-  const box = document.getElementById('cpRecLines');
-  if(!cpRecDraft.lines.length && ingOpts.length) cpRecDraft.lines.push({ ingId: '', qty: '', unit: 'g' });
-  box.innerHTML = ingOpts.length ? cpRecDraft.lines.map((l, idx) => `<div class="cp-line" data-idx="${idx}">
-      <select class="cp-ing" data-f="ing"><option value="">${escapeHtml(cpL('— 选原料 —', '— ingredient —'))}</option>${ingOpts.map(i => `<option value="${escapeAttr(i.id)}"${i.id === l.ingId ? ' selected' : ''}>${escapeHtml(i.name)}</option>`).join('')}</select>
-      <input type="number" data-f="qty" step="any" min="0" inputmode="decimal" placeholder="${escapeAttr(cpL('用量', 'amount'))}" value="${l.qty === '' ? '' : escapeAttr(String(l.qty))}">
-      <select data-f="unit">${unitOpts.replace(`value="${l.unit}"`, `value="${l.unit}" selected`)}</select>
-      <button type="button" class="cp-x" data-f="del" title="${escapeAttr(cpL('删除这一行', 'Remove'))}">✕</button></div>`).join('')
-    : `<div class="cp-hint">${escapeHtml(cpL('先到「🧂 原料价格」添加原料，再回来填配方。', 'Add ingredients first.'))}</div>`;
-  cpUpdatePreview();
-}
-function cpDraftCost(){
-  const rec = { lines: cpRecDraft.lines.filter(l => l.ingId && Number(l.qty) > 0), extra: Number(cpRecDraft.extra) || 0 };
-  return cpRecipeCost(rec);
-}
-function cpUpdatePreview(){
-  const el = document.getElementById('cpRecPreview');
-  if(!cpRecDraft){ el.textContent = ''; return; }
-  const c = cpDraftCost();
-  if(!c || !c.has){ el.textContent = cpL('填好原料和用量后，这里会显示每份成本。', 'Unit cost will show here.'); return; }
-  const unitWord = cpRecDraft.unit === 'kg' ? '/kg' : cpL('/份', '/unit');
-  let t = cpL('每份成本 ', 'Unit cost ') + cpRM(c.unitCost) + (cpRecDraft.unit === 'kg' ? '/kg' : '');
-  if(c.bad) t += '\n' + cpL('⚠️ 有一行原料和单位对不上（比如原料按 g 买，却填了 ml），这一行没算进去。', '⚠️ A line has a unit mismatch and is ignored.');
-  const all = cpAgg(0, Infinity).map[cpRecDraft.key];
-  if(all && all.qty > 0){
-    const avg = all.rev / all.qty;
-    const m = avg > 0 ? (avg - c.unitCost) / avg : null;
-    t += '\n' + cpL(`按平均实收价 ${cpRM(avg)}${unitWord}，毛利率约 ${m === null ? '—' : cpPct(m)}`, `At avg price ${cpRM(avg)}${unitWord}, margin ≈ ${m === null ? '—' : cpPct(m)}`);
-  }
-  el.style.whiteSpace = 'pre-line';
-  el.textContent = t;
-}
-async function cpSaveRecipe(){
-  if(!cpRecDraft) return;
-  const lines = cpRecDraft.lines.filter(l => l.ingId && Number(l.qty) > 0).map(l => ({ ingId: l.ingId, qty: Number(l.qty), unit: l.unit }));
-  const extra = Number(cpRecDraft.extra) || 0;
-  const id = cpRecId(cpRecDraft.key);
-  try{
-    if(!lines.length && !extra){
-      await db.collection('cost_recipes').doc(id).delete();
-    }else{
-      await db.collection('cost_recipes').doc(id).set({ key: cpRecDraft.key, name: cpRecDraft.name, lines, extra, updatedAt: Date.now() });
-    }
-    const btn = document.getElementById('cpRecSave');
-    const old = btn.textContent; btn.textContent = cpL('已保存 ✓', 'Saved ✓');
-    setTimeout(() => { btn.textContent = old; cpStatic(); }, 1200);
-  }catch(e){ console.error(e); alert(cpL('保存失败：', 'Save failed: ') + e.message); }
-}
-
-/* ---------- 批量导入 ---------- */
-async function cpImport(){
-  const text = document.getElementById('cpImpText').value;
-  const out = document.getElementById('cpImpResult');
-  const errs = [];
-  const ingIn = {}, recIn = {}, extraIn = {};
-  text.split(/\r?\n/).map(s => s.trim()).filter(Boolean).forEach((ln, i) => {
-    const p = ln.split(/[,，\t]/).map(s => s.trim());
-    const tag = i + 1;
-    const kind = p[0];
-    if(kind === '原料' || kind.toLowerCase() === 'ingredient'){
-      const name = p[1], price = parseFloat(p[2]), qty = parseFloat(p[3]), unit = cpParseUnit(p[4]);
-      if(!name || !(price >= 0) || !(qty > 0) || !unit){ errs.push(`第${tag}行：原料格式不对（名称,买价,数量,单位）`); return; }
-      ingIn[cpKey(name)] = { name, price, qty, unit };
-    }else if(kind === '配方' || kind.toLowerCase() === 'recipe'){
-      const prod = p[1], ing = p[2], qty = parseFloat(p[3]);
-      if(!prod || !ing || !(qty > 0)){ errs.push(`第${tag}行：配方格式不对（商品,原料,用量,单位）`); return; }
-      const unit = p[4] ? cpParseUnit(p[4]) : null;
-      if(p[4] && !unit){ errs.push(`第${tag}行：单位「${p[4]}」不认识`); return; }
-      const k = cpKey(prod);
-      (recIn[k] || (recIn[k] = { name: prod, lines: [] })).lines.push({ ingName: ing, qty, unit });
-    }else if(kind === '额外' || kind.toLowerCase() === 'extra'){
-      const prod = p[1], v = parseFloat(p[2]);
-      if(!prod || !(v >= 0)){ errs.push(`第${tag}行：额外成本格式不对（商品,金额）`); return; }
-      extraIn[cpKey(prod)] = { name: prod, v };
-    }else{
-      errs.push(`第${tag}行：开头要写「原料」「配方」或「额外」`);
-    }
-  });
-  // 先给原料定 id（已有的沿用，新的生成）
-  const idByKey = {};
-  const unitByKey = {};
-  cpIngs.forEach(i => { idByKey[cpKey(i.name)] = i.id; unitByKey[cpKey(i.name)] = i.unit; });
-  Object.keys(ingIn).forEach(k => { if(!idByKey[k]) idByKey[k] = cpUid('i_'); unitByKey[k] = ingIn[k].unit; });
-  const batch = db.batch();
-  let nIng = 0, nRec = 0;
-  Object.keys(ingIn).forEach(k => {
-    batch.set(db.collection('cost_ingredients').doc(idByKey[k]), Object.assign({}, ingIn[k], { updatedAt: Date.now() }));
-    nIng++;
-  });
-  const recKeys = Object.keys(recIn).concat(Object.keys(extraIn).filter(k => !recIn[k]));
-  recKeys.forEach(k => {
-    const src = recIn[k] || { name: extraIn[k].name, lines: [] };
-    const lines = [];
-    src.lines.forEach(l => {
-      const ik = cpKey(l.ingName);
-      if(!idByKey[ik]){ errs.push(`商品「${src.name}」用到的原料「${l.ingName}」还没有价格，这一行已跳过`); return; }
-      const unit = l.unit || unitByKey[ik];
-      const iu = CP_UNITS[unitByKey[ik]], lu = CP_UNITS[unit];
-      if(!iu || !lu || iu.dim !== lu.dim){ errs.push(`商品「${src.name}」的原料「${l.ingName}」单位对不上（买的是 ${iu ? iu.label : '?'}，用量写的是 ${lu ? lu.label : '?'}），这一行已跳过`); return; }
-      lines.push({ ingId: idByKey[ik], qty: l.qty, unit });
-    });
-    const extra = extraIn[k] ? extraIn[k].v : 0;
-    if(!lines.length && !extra) return;
-    batch.set(db.collection('cost_recipes').doc(cpRecId(k)), { key: k, name: src.name, lines, extra, updatedAt: Date.now() });
-    nRec++;
-  });
-  if(!nIng && !nRec){ out.textContent = (errs.length ? errs.join('\n') : '没有可导入的内容。'); return; }
-  try{
-    await batch.commit();
-    out.textContent = `✅ 导入完成：原料 ${nIng} 条，商品配方 ${nRec} 个。` + (errs.length ? '\n⚠️ 有 ' + errs.length + ' 个问题：\n' + errs.join('\n') : '');
-  }catch(e){ console.error(e); out.textContent = '导入失败：' + e.message; }
-}
-
-/* ---------- 事件绑定 ---------- */
-function cpTogglePanel(id){
-  ['cpIngPanel', 'cpRecPanel', 'cpImpPanel'].forEach(p => {
-    const el = document.getElementById(p);
-    if(p === id) el.classList.toggle('open'); else el.classList.remove('open');
-  });
-}
-on('cpIngBtn', 'click', () => { cpTogglePanel('cpIngPanel'); cpClearIngForm(); cpRenderIngList(); });
-on('cpIngClose', 'click', () => document.getElementById('cpIngPanel').classList.remove('open'));
-on('cpIngSave', 'click', cpSaveIng);
-['cpIngPrice', 'cpIngQty'].forEach(id => on(id, 'input', cpIngHint));
-on('cpIngUnit', 'change', cpIngHint);
-on('cpIngList', 'click', e => {
-  const ed = e.target.closest('[data-ing-edit]'), del = e.target.closest('[data-ing-del]');
-  if(ed){
-    const i = cpIngs.find(x => x.id === ed.dataset.ingEdit);
-    if(!i) return;
-    cpIngEditId = i.id;
-    document.getElementById('cpIngName').value = i.name;
-    document.getElementById('cpIngPrice').value = i.price;
-    document.getElementById('cpIngQty').value = i.qty;
-    document.getElementById('cpIngUnit').value = i.unit;
-    document.getElementById('cpIngSave').textContent = cpL('更新原料', 'Update');
-    cpIngHint();
-    document.getElementById('cpIngName').scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }else if(del){ cpDeleteIng(del.dataset.ingDel); }
-});
-
-on('cpRecBtn', 'click', () => {
-  const wasOpen = document.getElementById('cpRecPanel').classList.contains('open');
-  cpTogglePanel('cpRecPanel');
-  if(!wasOpen){ cpLoadDraft(null); cpRenderRecPanel(true); }
-});
-on('cpRecClose', 'click', () => document.getElementById('cpRecPanel').classList.remove('open'));
-on('cpRecProduct', 'change', e => { cpLoadDraft(e.target.value); cpRenderRecPanel(true); });
-on('cpRecAddLine', 'click', () => {
-  if(!cpRecDraft) return;
-  cpRecDraft.lines.push({ ingId: '', qty: '', unit: 'g' });
-  cpRenderRecPanel(false);
-});
-on('cpRecExtra', 'input', e => { if(cpRecDraft){ cpRecDraft.extra = e.target.value; cpUpdatePreview(); } });
-on('cpRecLines', 'input', e => {
-  const row = e.target.closest('.cp-line');
-  if(!row || !cpRecDraft) return;
-  const l = cpRecDraft.lines[Number(row.dataset.idx)];
-  if(e.target.dataset.f === 'qty'){ l.qty = e.target.value; cpUpdatePreview(); }
-});
-on('cpRecLines', 'change', e => {
-  const row = e.target.closest('.cp-line');
-  if(!row || !cpRecDraft) return;
-  const l = cpRecDraft.lines[Number(row.dataset.idx)];
-  const f = e.target.dataset.f;
-  if(f === 'ing'){
-    l.ingId = e.target.value;
-    const ing = cpIngs.find(i => i.id === l.ingId);
-    if(ing) l.unit = ing.unit;          // 默认用原料买入的单位，方便直接填
-    cpRenderRecPanel(false);
-  }else if(f === 'unit'){ l.unit = e.target.value; cpUpdatePreview(); }
-});
-on('cpRecLines', 'click', e => {
-  const x = e.target.closest('[data-f="del"]');
-  if(!x || !cpRecDraft) return;
-  const idx = Number(x.closest('.cp-line').dataset.idx);
-  cpRecDraft.lines.splice(idx, 1);
-  cpRenderRecPanel(false);
-});
-on('cpRecSave', 'click', cpSaveRecipe);
-on('cpRecClear', 'click', () => {
-  if(!cpRecDraft) return;
-  if(!confirm(cpL('清除这个商品的配方？', 'Clear this recipe?'))) return;
-  cpRecDraft.lines = []; cpRecDraft.extra = '';
-  cpSaveRecipe().then(() => cpRenderRecPanel(false));
-});
-
-on('cpImpBtn', 'click', () => { cpTogglePanel('cpImpPanel'); document.getElementById('cpImpResult').textContent = ''; });
-on('cpImpClose', 'click', () => document.getElementById('cpImpPanel').classList.remove('open'));
-on('cpImpGo', 'click', cpImport);
-
-on('cpPeriods', 'click', e => {
-  const c = e.target.closest('.cp-chip');
-  if(!c) return;
-  cpPeriod = c.dataset.cp;
-  renderCost();
-});
-on('cpBody', 'click', e => {
-  const b = e.target.closest('[data-cp-edit]');
-  if(b){ cpTogglePanelOpen('cpRecPanel'); cpOpenRecipe(b.dataset.cpEdit); }
-});
-function cpTogglePanelOpen(id){
-  ['cpIngPanel', 'cpRecPanel', 'cpImpPanel'].forEach(p => {
-    document.getElementById(p).classList.toggle('open', p === id);
-  });
-}
-/* ================= /成本利润 ================= */
 
 initAuthFlow();
 </script>
